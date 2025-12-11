@@ -1,0 +1,1183 @@
+:root {
+  --brand: #154d88; /* deep logo blue */
+  --brand-2: #124c8c; /* mid blue */
+  --brand-3: #1b3c72; /* light blue */
+  --tint: #cfd0e5; /* soft bluish tint */
+  --bg: #f7f8fc;
+  --card: #ffffff;
+  --text: #1b1f23;
+  --muted: #627085;
+  --border: #e6e8ee;
+  --shadow: 0 6px 18px rgba(16, 24, 40, 0.08);
+
+  /* Wood tones */
+  --wood-1: #c69c6d;
+  --wood-2: #b88752;
+  --wood-3: #d7b38c;
+}
+
+/* ---------- Base reset ---------- */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: linear-gradient(135deg, var(--brand-3), var(--brand-2));
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, -apple-system, "Inter", Segoe UI, Roboto, Arial,
+    sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* Smooth typography scale */
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin: 0 0 0.6rem;
+}
+h1 {
+  font-size: clamp(1.8rem, 2vw + 1rem, 2.6rem);
+  font-weight: 800;
+  color: var(--brand);
+}
+h2 {
+  font-size: clamp(1.3rem, 1.2vw + 0.9rem, 1.6rem);
+  font-weight: 700;
+  color: var(--brand);
+}
+h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+p {
+  margin: 0 0 1rem;
+  color: var(--text);
+}
+a {
+  color: var(--brand);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.value-statement {
+  text-align: center;
+  color: white;
+  padding: 25px;
+}
+
+/* ---------- Layout helpers ---------- */
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 0;
+}
+
+.heading-wood {
+  position: relative;
+  padding-left: 14px;
+}
+.heading-wood::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  bottom: 0.35em;
+  width: 6px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--wood-1), var(--wood-2));
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  gap: 16px;
+  padding: 12px 5vw;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.03), transparent),
+    var(--card);
+}
+
+.site-header::after {
+  content: "";
+  position: absolute; /* new */
+  left: 0; /* new */
+  right: 0; /* new */
+  bottom: -1px; /* sit on the bottom edge */
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--wood-1) 0 16px,
+    var(--wood-2) 16px 28px,
+    var(--wood-3) 28px 40px
+  );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  pointer-events: none; /* optional */
+}
+
+.site-header img {
+  height: clamp(56px, 7vw, 96px);
+  width: auto;
+  display: block;
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav a {
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 2rem;
+}
+
+.nav a[aria-current="page"] {
+  background: var(--brand);
+  color: white;
+  border-radius: 6px;
+}
+
+.nav a:hover {
+  background-color: var(--brand);
+  color: #fff;
+}
+
+.nav a:focus-visible {
+  outline: 2px solid #1f7a8c;
+  outline-offset: 2px;
+}
+
+/* Hamburger base */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 999;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: var(--brand);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Animate into an "X" when active */
+.nav-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Basic accordion layout to replace Bootstrap CSS */
+
+/* Container */
+.accordion {
+  border: 0;
+  background: transparent;
+  max-width: 1100px;
+  margin: 0 auto 32px;
+}
+
+/* Each item */
+.accordion-item {
+  border: 0;
+  margin-bottom: 12px;
+}
+
+/* The clickable header button */
+.accordion-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Remove ugly default button styles */
+.accordion-button {
+  font: inherit;
+  color: inherit;
+  outline: none;
+}
+
+/* Collapsed state */
+.accordion-button.collapsed {
+  box-shadow: none;
+}
+
+/* Hover and focus states */
+.accordion-button:hover {
+  background: #f2f4fb;
+}
+
+.accordion-button:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* Make the inner heading look tidy */
+.accordion-button h2 {
+  margin: 0;
+}
+
+/* The collapsible content area */
+.accordion-collapse {
+  margin-top: 6px;
+}
+
+/* Replace Bootstrap's .collapse behavior */
+.collapse {
+  display: none;
+}
+
+.collapse.show {
+  display: block;
+}
+
+/* Remove extra padding since your cards already have padding */
+.accordion-body {
+  padding: 0;
+}
+
+/* Members page accordion list spacing */
+.accordion-body ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.accordion-body li {
+  padding: 0.4rem 0;         /* vertical space between items */
+  border-bottom: 1px solid var(--border);
+}
+
+.accordion-body li:last-child {
+  border-bottom: none;       /* no line under the last one */
+}
+
+
+/* Mobile menu: hidden by default, slides open when active */
+@media (max-width: 768px) {
+  .site-header {
+    flex-wrap: wrap;
+  }
+
+  .navbar {
+    width: 100%;
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    /* hide by default with a smooth slide animation */
+    max-height: 0;
+    overflow: hidden;
+    background: var(--card);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    transition: max-height 0.3s ease;
+  }
+  .nav li {
+    border-bottom: 1px solid var(--border);
+  }
+  .nav li:last-child {
+    border-bottom: none;
+  }
+
+  .nav a {
+    display: block;
+    padding: 1rem;
+    font-size: 1.05rem;
+  }
+
+  /* show when active */
+  .nav.active {
+    max-height: 600px;
+  }
+
+  /* show the hamburger on mobile */
+  .nav-toggle {
+    display: flex;
+  }
+}
+
+/* ---------- Main content ---------- */
+.content {
+  padding: 32px 4vw 48px;
+}
+
+.content > h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.content > h1::after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 72px;
+  margin: 10px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--wood-1), var(--wood-2));
+  opacity: 0.6;
+}
+
+/* Banner */
+.hero-banner {
+  width: 100%;
+  height: 60vh;
+  background: url("assets/shed-banner.jpeg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* move content to the left side */
+  position: relative;
+  color: #fff;
+  padding: 0 5%; /* space from edges */
+  border-radius: 24px;
+}
+
+.hero-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45); /* full-screen dark overlay */
+  border-radius: 24px;
+}
+
+.hero-content {
+  position: relative;
+  max-width: 500px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.6); /* semi-transparent box behind text */
+  border-radius: 10px;
+  z-index: 1;
+  text-align: left; /* make text left-aligned */
+}
+
+.hero-content h1 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.hero-btn {
+  background: var(--brand);
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: background 0.3s;
+  display: inline-block;
+}
+
+.hero-btn:hover {
+  background: var(--brand-2);
+}
+
+/* Photo Gallery Section */
+
+/* Gallery when used inside sections */
+.section-grid .gallery {
+  display: grid;
+  grid-template-columns: 1fr; /* single column in sidebar */
+  gap: 16px;
+  width: 100%; /* fill its grid column */
+  overflow: hidden;
+}
+
+.section-grid .gallery img {
+  width: 100%;
+  height: 400px;
+  object-fit: contain;
+  border-radius: 24px;
+}
+
+
+/* Elevated content cards for readable blocks */
+.card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(255, 255, 255, 0.94)
+  );
+  border: 3px solid var(--wood-1);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: clamp(16px, 2vw, 28px);
+  margin: 18px auto;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.6s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.card p {
+  max-width: 70ch;
+  margin: 0 auto;
+}
+
+.section-text.card {
+  font-size: 1.3rem;
+  line-height: 1.7;
+  padding: clamp(20px, 3vw, 36px);
+}
+
+/* Two-column section that collapses on mobile */
+.section-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(16px, 3vw, 32px);
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 2vw, 28px) 5vw;
+  width: 100%;
+}
+
+/* Layout container for the workshop section */
+.workshop-grid {
+  display: grid;
+  gap: 1.25rem;
+  /* Desktop default: 4 columns */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+/* Optional: style each item box */
+.workshop-grid .section-grid {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 360);
+}
+
+/* Smooth hover animation for activity cards */
+.workshop-grid .section-grid a {
+  display: block;
+  border-radius: 12px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.workshop-grid .section-grid a:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.workshop-grid .section-grid a img {
+  transition: opacity 0.25s ease;
+}
+
+.workshop-grid .section-grid a:hover img {
+  opacity: 0.9;
+}
+
+.workshop-grid .section-grid a h2 {
+  transition: color 0.2s ease;
+}
+
+.workshop-grid .section-grid a:hover h2 {
+  color: var(--brand);   /* your blue brand color */
+}
+
+
+/* Responsive square thumbnail that scales with the card width */
+.shopGallery {
+  width: 100%;
+  max-width: 250px;
+  margin: 0 auto 8px;
+  border-radius: 8px;
+  background: #ccc;
+}
+
+.shopGallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Inside the workshop area, treat each item as a centered vertical card */
+.workshop-grid > .section-grid {
+  display: flex; /* you already set this, keeping it here for clarity */
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+
+  /* Equal heights across a row */
+  height: 100%;
+}
+
+/* was .card */
+.content-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));
+  border: 3px solid var(--wood-1);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: clamp(16px, 2vw, 28px);
+  margin: 18px auto;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.6s forwards;
+}
+
+/* was .media-section.card */
+.media-section.content-card {
+  width: 100%;
+  margin-inline: auto;
+}
+
+/* was .media-section.card > h2 */
+.media-section.content-card > h2 {
+  margin-bottom: 0.75rem;
+}
+
+
+/* Tidy spacing using margins rather than <br> tags */
+.workshop-grid > .section-grid h2 {
+  margin: 0.25rem 0 0.25rem;
+}
+
+.workshop-grid > .section-grid p {
+  margin: 0 0 0.5rem;
+}
+
+/* Image block */
+.media {
+  min-height: 200px;
+  max-height: 300px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Two stacked photos for the second section */
+.media-grid-2 {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+  min-height: 200px;
+  max-height: 300px;
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 900px) {
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+  .media,
+  .media-grid-2 {
+    min-height: 280px;
+  }
+  .workshop-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .shopGallery {
+    max-width: 200px;
+  }
+}
+
+/* Lists with modern markers */
+ul {
+  padding-left: 1.1rem;
+  margin: 0 0 1rem;
+}
+
+.checklist {
+  list-style: none;
+  padding: 0;
+}
+.checklist li {
+  padding-left: 28px;
+  position: relative;
+  margin: 0.35rem 0;
+}
+.checklist li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateY(2px);
+  font-weight: 800;
+  color: var(--brand);
+  opacity: 0.9;
+}
+
+/* Contact Form */
+#contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 600px;
+}
+
+#contact-form label {
+  font-weight: 600;
+}
+
+#contact-form input,
+#contact-form textarea {
+  padding: 14px;
+  border-radius: 8px;
+  background: #1c1e22;
+  border: 1px solid #444;
+  color: #f4f4f4;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+  border-color: var(--wood-2);
+  box-shadow: 0 0 6px var(--wood-1);
+  outline: none;
+}
+
+#contact-form button {
+  padding: 12px 24px;
+  background: linear-gradient(to right, var(--brand), var(--brand-2));
+  color: #0d0f14;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+#contact-form button:hover {
+  transform: scale(1.04);
+  background: linear-gradient(to right, var(--brand-2), var(--brand));
+  color: white;
+}
+
+/* Status Message */
+#status-message {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+#status-message.visible {
+  opacity: 1;
+}
+
+/* Placeholder animation */
+#message::placeholder {
+  color: #888;
+  transition: opacity 0.3s ease;
+}
+
+#message:focus::placeholder,
+#message:not(:placeholder-shown)::placeholder {
+  opacity: 0.2;
+}
+
+/* Character Counter */
+#char-count {
+  text-align: right;
+  font-size: 0.85rem;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  padding-right: 4px;
+  color: #888;
+  transition: color 0.3s ease;
+}
+
+#char-count.warn {
+  color: #e6a700;
+}
+
+#char-count.danger {
+  color: #d03535;
+}
+
+/*schedule*/
+.schedule-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(16px, 2.5vw, 32px);
+  margin-top: 12px;
+}
+
+.schedule-grid h3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+  color: var(--brand);
+}
+
+.schedule-grid p {
+  margin: 0.15rem 0;
+}
+
+/* Stack to one column on mobile */
+@media (max-width: 800px) {
+  .schedule-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Footer ---------- */
+/* Footer - full bleed background, centered content, nicer spacing */
+.site-footer {
+  position: relative;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.03), transparent),
+    var(--card);
+  padding: 0; /* we'll pad the inner */
+  margin-top: 36px;
+  border-top: 1px solid var(--border);
+}
+
+/* Wood accent bar on top of footer */
+.site-footer::before {
+  content: "";
+  display: block;
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--wood-1) 0 16px,
+    var(--wood-2) 16px 28px,
+    var(--wood-3) 28px 40px
+  );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* Center the inner content and give it breathing room */
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 5vw 16px;
+}
+
+/* Grid layout, balanced columns */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr;
+  gap: clamp(16px, 3vw, 32px);
+  align-items: start;
+}
+
+/* Headings and text rhythm */
+.site-footer h3 {
+  margin-bottom: 0.6rem;
+  color: var(--text);
+}
+#contact p,
+#hours p,
+#copyright p {
+  margin: 0.25rem 0;
+  color: var(--muted);
+}
+
+/* Links list, subtle underline on hover */
+.link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.link-list li {
+  margin: 0.35rem 0;
+}
+.link-list a {
+  display: inline-block;
+  padding: 2px 0;
+  border-bottom: 1px dashed transparent;
+  text-decoration: none;
+}
+.link-list a:hover {
+  border-color: var(--brand);
+}
+
+/* Bottom bar with faint border, center text */
+.footer-bottom {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Make phone link match text color */
+#contact a[href^="tel:"] {
+  color: var(--muted);
+  text-decoration: none;
+}
+#contact a[href^="tel:"]:hover {
+  color: var(--brand);
+}
+
+/* Make sure the map has height or it will not show */
+#map {
+  flex: 1;
+  min-height: 300px;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.map-wrap {
+  width: 100%;
+  margin: 1rem auto;
+  padding: 0 1rem;
+}
+
+/* Two-column layout for Contact page */
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Right column stacks its children */
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cms-photo {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.cms-photo img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.cms-photo figcaption {
+  font-size: 0.95rem;
+  color: #555;
+  margin-top: 8px;
+}
+
+
+/* On smaller screens, stack everything */
+@media (max-width: 900px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive footer */
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-inner {
+    padding: 24px 5vw 12px;
+  }
+}
+
+/* ---------- Utilities ---------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .content {
+    padding: 24px 5vw 40px;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .site-header {
+    padding: 12px 5vw 6px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .workshop-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Tablets */
+@media (max-width: 900px) {
+  .workshop-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Mobile */
+@media (max-width: 560px) {
+  .workshop-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .shopGallery {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 560px) {
+  .shopGallery {
+    max-width: 160px;
+  }
+}
+
+/* Anchor jump feels better if header is fixed or tall */
+.media-section {
+  scroll-margin-top: 96px; /* adjust if your header height changes */
+}
+
+/* Limit line length inside cards and tidy spacing */
+.media-section.card {
+  width: 100%;
+  margin-inline: auto;
+}
+.media-section.card > h2 {
+  margin-bottom: 0.75rem;
+}
+
+.media-section .video {
+  max-width: 640px;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+}
+.media-section .video video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.12);
+  background: #000;
+  object-fit: cover; /* use 'contain' if you prefer letterbox */
+}
+
+/* remove extra space inside accordion body when you already have a card */
+.accordion-body {
+  padding: 0 !important;
+}
+
+
+
+/* Responsive video grid */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+/* Keep videos clean and consistent */
+.video {
+  display: grid;
+  gap: 0.5rem;
+}
+.video video {
+  width: 100%;
+  max-width: 640px;
+  height: auto; /* natural height unless you prefer fixed ratio */
+  display: block;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.12);
+  background: #000;
+}
+.video figcaption {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.links-disclaimer {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 8px;
+  line-height: 1.4;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Make the video area breathe on small screens */
+@media (max-width: 640px) {
+  .media-section.card {
+    padding: 16px;
+  }
+}
+
+.coming-soon {
+  color: #777;
+  font-style: italic;
+}
+
+
+/* =======================
+   Mobile-friendly tweaks
+   ======================= */
+
+/* 1) Base scaling for small screens */
+@media (max-width: 640px) {
+  html { font-size: 15px; }           /* slightly smaller type */
+  .content { padding: 20px 4vw 32px; }
+  h1 { font-size: clamp(1.6rem, 5vw, 2rem); }
+  h2 { font-size: clamp(1.1rem, 4.2vw, 1.35rem); }
+}
+
+/* 2) Header and nav: smaller buttons and better tap targets */
+@media (max-width: 768px) {
+  .site-header { padding: 10px 4vw; }
+
+  /* your nav links are 2rem by default, which is huge on phones */
+  .nav a {
+    font-size: 1rem;
+    padding: 0.9rem 1rem;
+  }
+
+  /* make the logo a bit smaller on phones */
+  .site-header img { height: 56px; }
+}
+
+/* 3) Accordion body: remove extra padding since cards have padding */
+.accordion-body { padding: 0 !important; }
+
+/* 4) Cards: ensure inner padding is not excessive on mobile */
+@media (max-width: 640px) {
+  /* If you kept the Bootstrap .card class for your gallery sections, target both */
+  .media-section.card,
+  .media-section.content-card {
+    padding: 14px;
+    margin: 12px auto;
+    border-width: 2px;
+  }
+}
+
+/* 5) Video: one size fits all, scales down cleanly */
+.media-section .video {
+  max-width: 100%;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+}
+.media-section .video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* use contain if you prefer letterbox */
+}
+
+/* 6) Video grid: collapse to 1 column on phones, reduce gaps */
+@media (max-width: 768px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* 7) Gallery thumbs: keep square, smaller by default, grow on tablets */
+.shopGallery {
+  max-width: clamp(160px, 46vw, 260px);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto 8px;
+}
+@media (max-width: 560px) {
+  .shopGallery { max-width: 60vw; }
+}
+
+/* 8) Section grids elsewhere: stack to a single column earlier */
+@media (max-width: 900px) {
+  .section-grid { grid-template-columns: 1fr; }
+}
+
+/* 9) Footer grid: stack cleanly with comfy spacing */
+@media (max-width: 900px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 18px; }
+  .footer-inner { padding: 22px 5vw 12px; }
+}
+
+/* 10) Prevent images from overflowing containers */
+img, video { max-width: 100%; height: auto; }

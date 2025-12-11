@@ -1,0 +1,170 @@
+/* Center the main content nicely */
+.container {
+  margin: 0 auto;
+  padding: 0 5vw;
+}
+
+/* Page intro band */
+.page-intro {
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color: #fff;
+  padding: clamp(20px, 4vw, 48px) 0;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.page-intro-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5vw;
+}
+.page-intro h1 {
+  margin: 0 0 .5rem;
+  color: #fff;
+}
+.page-intro p {
+  margin: 0;
+  color: rgba(255,255,255,0.92);
+}
+
+/* Cards: clean, readable, subtle depth */
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));
+  border: 3px solid var(--wood-1);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: clamp(16px, 2vw, 28px);
+  margin: 18px auto;
+}
+
+/* Headings inside cards with wood accent line already present */
+.section-text.card h2 {
+  margin-bottom: .75rem;
+}
+
+/* Comfortable reading width */
+.section-text.card p,
+.section-text.card ul {
+  max-width: 70ch;
+}
+
+/* Section grid spacing tuned for reading */
+.section-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* two columns */
+  gap: clamp(16px, 2.5vw, 28px);
+  align-items: start;
+  padding: clamp(16px, 2vw, 28px) 0;
+  width: 100%;
+}
+
+/* collapse to single column on smaller screens */
+@media (max-width: 900px){
+  .section-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Supporters section override --- */
+.section-grid.supporters {
+  grid-template-columns: 1fr;   /* only one column */
+  justify-items: center;        /* center the content horizontally */
+             /* optional, centers text too */
+}
+
+.section-grid.supporters .card {
+  max-width: 800px;             /* keep it nicely contained */
+  width: 100%;
+}
+
+/* Supporters: convert list to responsive pills */
+.section-text.card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.section-text.card ul li a{
+  display: block;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  text-decoration: none;
+  transition: box-shadow .2s ease, border-color .2s ease, transform .05s ease;
+}
+.section-text.card ul li a:hover{
+  border-color: var(--brand);
+  box-shadow: 0 6px 18px rgba(16,24,40,.10);
+  transform: translateY(-1px);
+}
+
+/* Keep header wood strip fix you added */
+.site-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  gap: 16px;
+  padding: 12px 5vw;
+  border-bottom: 1px solid var(--border);
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.03), transparent),
+    var(--card);
+}
+
+.site-header::after{
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 8px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--wood-1) 0 16px,
+      var(--wood-2) 16px 28px,
+      var(--wood-3) 28px 40px
+    );
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.2),
+              inset 0 -1px 0 rgba(0,0,0,.15);
+  pointer-events: none;
+}
+
+/* Tweak global background to keep contrast with dark text */
+html, body {
+  background: linear-gradient(135deg, var(--brand-3), var(--brand-2));
+}
+.content { padding: 32px 5vw 48px; } /* container handles side padding */
+
+/* Mobile spacing */
+@media (max-width: 640px){
+  .page-intro p { font-size: .95rem; }
+  .section-text.card p,
+  .section-text.card ul { max-width: none; }
+}
+
+.info-strip {
+  padding: 16px 0;
+}
+.info-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5vw;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.info-item {
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));
+  border: 3px solid var(--wood-1);
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: var(--shadow);
+}
+.info-item strong { color: var(--brand); margin-right: 8px; }
+
+@media (max-width: 800px){
+  .info-inner { grid-template-columns: 1fr; }
+}
