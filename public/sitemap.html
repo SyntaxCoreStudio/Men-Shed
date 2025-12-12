@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Map | Carina Men's Shed</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    .sitemap-container {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .sitemap-title {
+      font-size: 32px;
+      margin-bottom: 10px;
+      text-align: center;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .sitemap-description {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #555;
+    }
+
+    .sitemap-section {
+      margin-bottom: 35px;
+    }
+
+    .sitemap-section h2 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #444;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sitemap-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .sitemap-section ul li {
+      padding: 8px 0;
+      font-size: 18px;
+    }
+
+    .sitemap-section ul li a {
+      text-decoration: none;
+      color: #0066cc;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .sitemap-section ul li a:hover {
+      color: #004999;
+      padding-left: 6px;
+    }
+
+    @media (max-width: 600px) {
+      .sitemap-container {
+        padding: 20px;
+      }
+      .sitemap-title {
+        font-size: 26px;
+      }
+      .sitemap-section h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sitemap-container">
+    <h1 class="sitemap-title"><i class="fas fa-sitemap"></i> Site Map</h1>
+    <p class="sitemap-description">A complete overview of all pages on the Carina Men's Shed website.</p>
+
+    <!-- Main Website Section -->
+    <div class="sitemap-section">
+      <h2><i class="fas fa-home"></i> Main Pages</h2>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/index.html">Welcome</a></li>
+        <li><a href="/ourStory.html">Our Story</a></li>
+        <li><a href="/members.html">Members</a></li>
+        <li><a href="/activities.html">Activities</a></li>
+        <li><a href="/gettingTogether.html">Getting Together</a></li>
+        <li><a href="/contactUs.html">Contact Us</a></li>
+        <li><a href="/gallery.html">Gallery</a></li>
+      </ul>
+    </div>
+
+    <!-- Nuts and Bolts -->
+    <div class="sitemap-section">
+      <h2><i class="fas fa-wrench"></i> Nuts and Bolts</h2>
+      <ul>
+        <li><a href="/members.html">Resources</a></li>
+      </ul>
+    </div>
+
+    <!-- Misc -->
+    <div class="sitemap-section">
+      <h2><i class="fas fa-file-circle-exclamation"></i> Other</h2>
+      <ul>
+        <li><a href="/404.html">Error Page</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+</body>
+</html>

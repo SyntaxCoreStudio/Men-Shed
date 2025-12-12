@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://carinamensshed.org.au/sitemap.xml
