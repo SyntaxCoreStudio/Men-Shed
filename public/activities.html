@@ -2,6 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-72105VLGNR"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-72105VLGNR");
+    </script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Carina Men's Shed | Activities</title>
 
@@ -184,7 +199,9 @@
       <nav class="navbar">
         <ul id="site-nav" class="nav">
           <li><a href="index.html">Home</a></li>
-          <li><a href="activities.html" aria-current="page">Our Activities</a></li>
+          <li>
+            <a href="activities.html" aria-current="page">Our Activities</a>
+          </li>
           <li><a href="gettingTogether.html">Getting Together</a></li>
           <li><a href="ourStory.html">Our Story</a></li>
           <li><a href="contactUs.html">Contact Us</a></li>
@@ -342,7 +359,7 @@
               </div>
             </a>
           </div>
-<!--
+          <!--
           <div class="section-grid">
             <a href="gallery.html#glamping">
               <h2 class="heading-wood">Social Group</h2>
@@ -366,10 +383,13 @@
 
           <div class="section-grid">
             <a href="gallery.html#community">
-                <h2 class="heading-wood">Charity</h2>
-                <div class="shopGallery">
-                    <img src="assets/mealsOnWheels.jpg" alt="Shed member give toolbox's to meals on wheels" />
-                </div>
+              <h2 class="heading-wood">Charity</h2>
+              <div class="shopGallery">
+                <img
+                  src="assets/mealsOnWheels.jpg"
+                  alt="Shed member give toolbox's to meals on wheels"
+                />
+              </div>
             </a>
           </div>
         </div>
@@ -428,13 +448,9 @@
       </div>
     </footer>
 
-    <button
-  id="backToTop"
-  aria-label="Back to top"
-  title="Back to top"
->
-  ↑
-</button>
+    <button id="backToTop" aria-label="Back to top" title="Back to top">
+      ↑
+    </button>
 
     <script type="module" src="script.js"></script>
   </body>
