@@ -503,6 +503,50 @@ a:hover {
   width: 100%;
 }
 
+/* three-column section that collapses on mobile */
+.section-grid.three-column {
+  grid-template-columns: 1fr minmax(260px, 360px) 1fr;
+  align-items: start;
+}
+
+.section-grid.three-column .video {
+  align-self: center;
+  margin-top: 12px;
+}
+
+/* Only affects the homepage 3-column goals section */
+.home-goals {
+  grid-template-columns:
+    minmax(420px, 1.2fr)
+    minmax(260px, 360px)
+    minmax(420px, 1.2fr);
+  justify-content: center;
+  align-items: start;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Stop the big cards from stretching too wide */
+.home-goals .section-text.card {
+  width: 100%;
+  max-width: 100%;
+  justify-self: stretch;
+}
+
+/* Limit text line length inside the card */
+.home-goals .section-text.card p,
+.home-goals .section-text.card ul {
+  max-width: 75ch;
+}
+
+
+/* Keep the video centered */
+.home-goals .home-video {
+  justify-self: center;
+}
+
+
+
 /* Layout container for the workshop section */
 .workshop-grid {
   display: grid;
@@ -1186,6 +1230,17 @@ ul {
   border: 0;
 }
 
+.home-video {
+  width: 100%;
+  display: block;
+}
+
+.home-video .youtube-wrapper {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 9 / 16;
+  margin: 0 auto;
+}
 
 /* =======================
    Mobile-friendly tweaks
@@ -1271,3 +1326,31 @@ ul {
 
 /* 10) Prevent images from overflowing containers */
 img, video { max-width: 100%; height: auto; }
+
+/* Tablet: drop to 2 columns */
+@media (max-width: 1100px) {
+  .section-grid.three-column {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Force video to sit on its own row */
+  .section-grid.three-column .video {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+}
+
+/* Mobile: single column */
+@media (max-width: 700px) {
+  .section-grid.three-column {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .home-video .youtube-wrapper {
+    aspect-ratio: auto;
+    height: 520px;      /* adjust if you want shorter */
+    max-width: 360px;
+  }
+}
