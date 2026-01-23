@@ -381,7 +381,8 @@ a:hover {
 /* Banner */
 .hero-banner {
   width: 100%;
-  height: 60vh;
+  min-height: clamp(420px, 60vh, 700px);
+  height: 100%;
   background: url("assets/shed-banner.jpeg") center/cover no-repeat;
   display: flex;
   align-items: center;
@@ -513,6 +514,17 @@ a:hover {
   align-self: center;
   margin-top: 12px;
 }
+
+.section-grid.hero-grid {
+  grid-template-columns: 80% 20%;
+  align-items: stretch;
+}
+
+.section-grid.hero-grid .home-video {
+  display: flex;
+  justify-content: center;
+}
+
 
 /* Only affects the homepage 3-column goals section */
 .home-goals {
@@ -1232,15 +1244,64 @@ ul {
 
 .home-video {
   width: 100%;
-  display: block;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .home-video .youtube-wrapper {
   width: 100%;
   max-width: 400px;
-  aspect-ratio: 9 / 16;
+  height: 100%;
+  aspect-ratio: auto;
   margin: 0 auto;
 }
+
+.video-placeholder {
+  cursor: pointer;
+  position: relative;
+}
+
+.video-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Play button overlay */
+.play-button {
+  position: absolute;
+  inset: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.play-button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 68px;
+  height: 68px;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.65);
+  border-radius: 50%;
+}
+
+.play-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-45%, -50%);
+  border-style: solid;
+  border-width: 14px 0 14px 22px;
+  border-color: transparent transparent transparent white;
+}
+
 
 /* =======================
    Mobile-friendly tweaks
@@ -1350,7 +1411,69 @@ img, video { max-width: 100%; height: auto; }
 @media (max-width: 700px) {
   .home-video .youtube-wrapper {
     aspect-ratio: auto;
-    height: 520px;      /* adjust if you want shorter */
+    height: 500px;      /* adjust if you want shorter */
     max-width: 360px;
+  }
+}
+
+@media (max-width: 900px) {
+  .section-grid.hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-grid.hero-grid > * {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 900px) {
+  .section-grid.hero-grid .home-video {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 900px) {
+  .section-grid.hero-grid .home-video {
+    padding-inline: 16px;
+  }
+}
+
+@media (max-width: 900px) {
+  .section-grid.hero-grid .home-video {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .section-grid.hero-grid .home-video .youtube-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .section-grid.hero-grid {
+    padding-inline: 4vw;
+  }
+}
+
+
+/* 1) Kill default figure spacing (THIS is the usual culprit) */
+figure {
+  margin: 0;
+}
+
+/* 2) On mobile, force items in the hero grid to center */
+@media (max-width: 900px) {
+  .section-grid.hero-grid {
+    justify-items: center;   /* centers grid children */
+  }
+
+  .section-grid.hero-grid .home-video {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-inline: 0;       /* remove extra padding you added */
   }
 }

@@ -136,3 +136,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+
+document.addEventListener("click", (e) => {
+  const wrapper = e.target.closest(".video-placeholder");
+  if (!wrapper) return;
+
+  const videoId = wrapper.dataset.videoId;
+
+  wrapper.innerHTML = `
+    <iframe
+      src="https://www.youtube.com/embed/${videoId}?autoplay=1"
+      title="Carina Men's Shed Video"
+      frameborder="0"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  `;
+});
