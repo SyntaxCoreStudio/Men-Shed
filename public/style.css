@@ -31,7 +31,13 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: system-ui, -apple-system, "Inter", Segoe UI, Roboto, Arial,
+  font-family:
+    system-ui,
+    -apple-system,
+    "Inter",
+    Segoe UI,
+    Roboto,
+    Arial,
     sans-serif;
   color: var(--text);
   line-height: 1.6;
@@ -117,8 +123,8 @@ a:hover {
   gap: 16px;
   padding: 12px 5vw;
   border-bottom: 1px solid var(--border);
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.03), transparent),
-    var(--card);
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.03), transparent), var(--card);
 }
 
 .site-header::after {
@@ -134,7 +140,8 @@ a:hover {
     var(--wood-2) 16px 28px,
     var(--wood-3) 28px 40px
   );
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
     inset 0 -1px 0 rgba(0, 0, 0, 0.15);
   pointer-events: none; /* optional */
 }
@@ -240,7 +247,9 @@ a:hover {
   padding: 0.75rem 1rem;
   cursor: pointer;
   box-shadow: var(--shadow);
-  transition: background 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 /* Remove ugly default button styles */
@@ -297,14 +306,13 @@ a:hover {
 }
 
 .accordion-body li {
-  padding: 0.4rem 0;         /* vertical space between items */
+  padding: 0.4rem 0; /* vertical space between items */
   border-bottom: 1px solid var(--border);
 }
 
 .accordion-body li:last-child {
-  border-bottom: none;       /* no line under the last one */
+  border-bottom: none; /* no line under the last one */
 }
-
 
 /* Mobile menu: hidden by default, slides open when active */
 @media (max-width: 768px) {
@@ -457,7 +465,6 @@ a:hover {
   border-radius: 24px;
 }
 
-
 /* Elevated content cards for readable blocks */
 .card {
   background: linear-gradient(
@@ -525,7 +532,6 @@ a:hover {
   justify-content: center;
 }
 
-
 /* Only affects the homepage 3-column goals section */
 .home-goals {
   grid-template-columns:
@@ -551,13 +557,10 @@ a:hover {
   max-width: 75ch;
 }
 
-
 /* Keep the video centered */
 .home-goals .home-video {
   justify-self: center;
 }
-
-
 
 /* Layout container for the workshop section */
 .workshop-grid {
@@ -580,12 +583,14 @@ a:hover {
 .workshop-grid .section-grid a {
   display: block;
   border-radius: 12px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .workshop-grid .section-grid a:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .workshop-grid .section-grid a img {
@@ -601,9 +606,8 @@ a:hover {
 }
 
 .workshop-grid .section-grid a:hover h2 {
-  color: var(--brand);   /* your blue brand color */
+  color: var(--brand); /* your blue brand color */
 }
-
 
 /* Responsive square thumbnail that scales with the card width */
 .shopGallery {
@@ -636,7 +640,11 @@ a:hover {
 
 /* was .card */
 .content-card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(255, 255, 255, 0.94)
+  );
   border: 3px solid var(--wood-1);
   border-radius: 16px;
   box-shadow: var(--shadow);
@@ -657,7 +665,6 @@ a:hover {
 .media-section.content-card > h2 {
   margin-bottom: 0.75rem;
 }
-
 
 /* Tidy spacing using margins rather than <br> tags */
 .workshop-grid > .section-grid h2 {
@@ -710,7 +717,9 @@ a:hover {
   justify-content: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   z-index: 999;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
   bottom: calc(1.5rem + env(safe-area-inset-bottom));
 }
 
@@ -726,7 +735,6 @@ a:hover {
   outline: 2px solid #ffffff;
   outline-offset: 3px;
 }
-
 
 /* Mobile: stack vertically */
 @media (max-width: 900px) {
@@ -792,7 +800,9 @@ ul {
   color: #000;
   font-size: 1rem;
   font-family: inherit;
-  transition: border 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    border 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 #contact-form input:focus,
@@ -811,7 +821,9 @@ ul {
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
 }
 
 #contact-form button:hover {
@@ -892,8 +904,8 @@ ul {
 /* Footer - full bleed background, centered content, nicer spacing */
 .site-footer {
   position: relative;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.03), transparent),
-    var(--card);
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.03), transparent), var(--card);
   padding: 0; /* we'll pad the inner */
   margin-top: 36px;
   border-top: 1px solid var(--border);
@@ -910,7 +922,8 @@ ul {
     var(--wood-2) 16px 28px,
     var(--wood-3) 28px 40px
   );
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
     inset 0 -1px 0 rgba(0, 0, 0, 0.15);
 }
 
@@ -1024,7 +1037,6 @@ ul {
   color: #555;
   margin-top: 8px;
 }
-
 
 /* On smaller screens, stack everything */
 @media (max-width: 900px) {
@@ -1146,8 +1158,6 @@ ul {
   padding: 0 !important;
 }
 
-
-
 /* Responsive video grid */
 .video-grid {
   display: grid;
@@ -1230,8 +1240,8 @@ ul {
 
 /* Portrait override */
 .youtube-wrapper.portrait {
-  max-width: 360px;          /* phone-like width */
-  aspect-ratio: 9 / 16;     /* portrait */
+  max-width: 360px; /* phone-like width */
+  aspect-ratio: 9 / 16; /* portrait */
 }
 
 .youtube-wrapper iframe {
@@ -1246,8 +1256,30 @@ ul {
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
+  gap: 14px;
+}
+
+.video-cta {
+  display: inline-block;
+  padding: 12px 22px;
+  background: linear-gradient(to right, var(--brand), var(--brand-2));
+  color: #fff;
+  font-weight: 600;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.video-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
 }
 
 .home-video .youtube-wrapper {
@@ -1302,22 +1334,31 @@ ul {
   border-color: transparent transparent transparent white;
 }
 
-
 /* =======================
    Mobile-friendly tweaks
    ======================= */
 
 /* 1) Base scaling for small screens */
 @media (max-width: 640px) {
-  html { font-size: 15px; }           /* slightly smaller type */
-  .content { padding: 20px 4vw 32px; }
-  h1 { font-size: clamp(1.6rem, 5vw, 2rem); }
-  h2 { font-size: clamp(1.1rem, 4.2vw, 1.35rem); }
+  html {
+    font-size: 15px;
+  } /* slightly smaller type */
+  .content {
+    padding: 20px 4vw 32px;
+  }
+  h1 {
+    font-size: clamp(1.6rem, 5vw, 2rem);
+  }
+  h2 {
+    font-size: clamp(1.1rem, 4.2vw, 1.35rem);
+  }
 }
 
 /* 2) Header and nav: smaller buttons and better tap targets */
 @media (max-width: 768px) {
-  .site-header { padding: 10px 4vw; }
+  .site-header {
+    padding: 10px 4vw;
+  }
 
   /* your nav links are 2rem by default, which is huge on phones */
   .nav a {
@@ -1326,11 +1367,15 @@ ul {
   }
 
   /* make the logo a bit smaller on phones */
-  .site-header img { height: 56px; }
+  .site-header img {
+    height: 56px;
+  }
 }
 
 /* 3) Accordion body: remove extra padding since cards have padding */
-.accordion-body { padding: 0 !important; }
+.accordion-body {
+  padding: 0 !important;
+}
 
 /* 4) Cards: ensure inner padding is not excessive on mobile */
 @media (max-width: 640px) {
@@ -1371,22 +1416,35 @@ ul {
   margin: 0 auto 8px;
 }
 @media (max-width: 560px) {
-  .shopGallery { max-width: 60vw; }
+  .shopGallery {
+    max-width: 60vw;
+  }
 }
 
 /* 8) Section grids elsewhere: stack to a single column earlier */
 @media (max-width: 900px) {
-  .section-grid { grid-template-columns: 1fr; }
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* 9) Footer grid: stack cleanly with comfy spacing */
 @media (max-width: 900px) {
-  .footer-grid { grid-template-columns: 1fr; gap: 18px; }
-  .footer-inner { padding: 22px 5vw 12px; }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .footer-inner {
+    padding: 22px 5vw 12px;
+  }
 }
 
 /* 10) Prevent images from overflowing containers */
-img, video { max-width: 100%; height: auto; }
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
 
 /* Tablet: drop to 2 columns */
 @media (max-width: 1100px) {
@@ -1411,7 +1469,7 @@ img, video { max-width: 100%; height: auto; }
 @media (max-width: 700px) {
   .home-video .youtube-wrapper {
     aspect-ratio: auto;
-    height: 500px;      /* adjust if you want shorter */
+    height: 500px; /* adjust if you want shorter */
     max-width: 360px;
   }
 }
@@ -1458,7 +1516,6 @@ img, video { max-width: 100%; height: auto; }
   }
 }
 
-
 /* 1) Kill default figure spacing (THIS is the usual culprit) */
 figure {
   margin: 0;
@@ -1467,13 +1524,13 @@ figure {
 /* 2) On mobile, force items in the hero grid to center */
 @media (max-width: 900px) {
   .section-grid.hero-grid {
-    justify-items: center;   /* centers grid children */
+    justify-items: center; /* centers grid children */
   }
 
   .section-grid.hero-grid .home-video {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-inline: 0;       /* remove extra padding you added */
+    padding-inline: 0; /* remove extra padding you added */
   }
 }
