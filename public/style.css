@@ -405,50 +405,10 @@ a:hover {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45); /* full-screen dark overlay */
   border-radius: 24px;
 }
 
-.hero-content {
-  position: relative;
-  max-width: 500px;
-  padding: 20px;
-  background: rgba(0, 0, 0, 0.6); /* semi-transparent box behind text */
-  border-radius: 10px;
-  z-index: 1;
-  text-align: left; /* make text left-aligned */
-}
-
-.hero-content h1 {
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-}
-
-.hero-content p {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  color: white;
-}
-
-.hero-btn {
-  background: var(--brand);
-  color: #fff;
-  text-decoration: none;
-  padding: 12px 24px;
-  border-radius: 25px;
-  font-weight: 600;
-  transition: background 0.3s;
-  display: inline-block;
-}
-
-.hero-btn:hover {
-  background: var(--brand-2);
-}
-
 /* Photo Gallery Section */
-
 /* Gallery when used inside sections */
 .section-grid .gallery {
   display: grid;
@@ -1205,26 +1165,6 @@ ul {
   font-style: italic;
 }
 
-.youtube-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 640px;
-  aspect-ratio: 16 / 9;
-  margin: 0 auto;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.12);
-  background: #000;
-}
-
-.youtube-wrapper iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
 /* Default landscape videos */
 .youtube-wrapper {
   position: relative;
@@ -1240,8 +1180,8 @@ ul {
 
 /* Portrait override */
 .youtube-wrapper.portrait {
-  max-width: 360px; /* phone-like width */
-  aspect-ratio: 9 / 16; /* portrait */
+  max-width: 360px;
+  aspect-ratio: 9 / 16;
 }
 
 .youtube-wrapper iframe {
@@ -1285,8 +1225,8 @@ ul {
 .home-video .youtube-wrapper {
   width: 100%;
   max-width: 400px;
-  height: 100%;
-  aspect-ratio: auto;
+  height: auto;
+  aspect-ratio: 9 / 16;
   margin: 0 auto;
 }
 
