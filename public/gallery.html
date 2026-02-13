@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -211,6 +211,68 @@
 
     <main class="container content">
       <div class="accordion accordion-flush" id="galleryAccordion">
+        <!--Interview Section-->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="interviewHeading">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#interviewCollapse"
+              aria-expanded="false"
+              aria-controls="interviewCollapse"
+            >
+              <h2 class="heading-wood">Interviews</h2>
+            </button>
+          </h2>
+          <div
+            id="interviewCollapse"
+            class="accordion-collapse collapse"
+            aria-labelledby="interviewHeading"
+            data-bs-parent="#galleryAccordion"
+          >
+            <div class="accordion-body p-0">
+              <section id="interviewGallery" class="media-section content-card">
+                <div class="video-grid">
+                  <figure class="video home-video">
+                    <div
+                      class="youtube-wrapper portrait video-placeholder"
+                      data-video-id="DXzKplARB5Q"
+                    >
+                      <button
+                        class="play-button"
+                        aria-label="Play video"
+                      ></button>
+                    </div>
+                  </figure>
+                  <figure class="video home-video">
+                    <div
+                      class="youtube-wrapper portrait video-placeholder"
+                      data-video-id="Afmv6AaLB3w"
+                    >
+                      <button
+                        class="play-button"
+                        aria-label="Play video"
+                      ></button>
+                    </div>
+                  </figure>
+                  <figure class="video home-video">
+                    <div
+                      class="youtube-wrapper portrait video-placeholder"
+                      data-video-id="q9YXTA2o2Pg"
+                    >
+                      <button
+                        class="play-button"
+                        aria-label="Play video"
+                      ></button>
+                    </div>
+                  </figure>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+
         <!-- Glass Section -->
         <div class="accordion-item">
           <h2 class="accordion-header" id="glassHeading">
@@ -235,24 +297,40 @@
             <div class="accordion-body p-0">
               <section id="glassGallery" class="media-section content-card">
                 <div class="video-grid">
-                  <figure class="video">
-                    <video controls playsinline preload="metadata">
-                      <source
-                        src="assets/Videos/Glass Discussion.mov"
-                        type="video/mp4"
-                      />
-                      Sorry, your browser does not support HTML5 video.
-                    </video>
+                  <figure class="video gallery-video">
+                    <div
+                      class="youtube-wrapper portrait video-placeholder"
+                      data-video-id="EuhqlP_mKe8"
+                    >
+                      <button
+                        class="play-button"
+                        aria-label="Play video"
+                      ></button>
+                    </div>
                   </figure>
 
-                  <figure class="video">
-                    <video controls playsinline preload="metadata">
-                      <source
-                        src="assets/Videos/Glass Planters.mov"
-                        type="video/mp4"
-                      />
-                      Sorry, your browser does not support HTML5 video.
-                    </video>
+                  <figure class="video gallery-video">
+                    <div
+                      class="youtube-wrapper video-placeholder"
+                      data-video-id="txHxaSR8_70"
+                    >
+                      <button
+                        class="play-button"
+                        aria-label="Play video"
+                      ></button>
+                    </div>
+                  </figure>
+
+                  <figure class="video gallery-video">
+                    <div
+                      class="youtube-wrapper video-placeholder"
+                      data-video-id="1IaHOBiMOXQ"
+                    >
+                      <button
+                        class="play-button"
+                        aria-label="Play video"
+                      ></button>
+                    </div>
                   </figure>
 
                   <div class="shopGallery">
@@ -298,14 +376,16 @@
             <div class="accordion-body p-0">
               <section id="leatherGallery" class="media-section content-card">
                 <div class="video-grid">
-                  <figure class="video">
-                    <video controls playsinline preload="metadata">
-                      <source
-                        src="assets/Videos/Leather.mov"
-                        type="video/mp4"
-                      />
-                      Sorry, your browser does not support HTML5 video.
-                    </video>
+                  <figure class="video gallery-video">
+                    <div
+                      class="youtube-wrapper video-placeholder"
+                      data-video-id="RrxTlizKFF0"
+                    >
+                      <button
+                        class="play-button"
+                        aria-label="Play video"
+                      ></button>
+                    </div>
                   </figure>
 
                   <div class="shopGallery">
@@ -351,14 +431,16 @@
             <div class="accordion-body p-0">
               <section id="woodGallery" class="media-section content-card">
                 <div class="video-grid">
-                  <figure class="video">
-                    <video controls playsinline preload="metadata">
-                      <source
-                        src="assets/Videos/Woodwork Boxes.mov"
-                        type="video/mp4"
-                      />
-                      Sorry, your browser does not support HTML5 video.
-                    </video>
+                  <figure class="video gallery-video">
+                    <div
+                      class="youtube-wrapper video-placeholder"
+                      data-video-id="wjizZHFv8U4"
+                    >
+                      <button
+                        class="play-button"
+                        aria-label="Play video"
+                      ></button>
+                    </div>
                   </figure>
 
                   <div class="shopGallery">
@@ -864,27 +946,18 @@
               <section id="communityGallery" class="media-section content-card">
                 <div class="video-grid">
                   <div class="shopGallery">
-                    <figure class="cms-photo">
-                      <img
-                        src="assets/mealsOnWheels.jpg"
-                        loading="lazy"
-                        alt="Shed member give toolbox's to meals on wheels"
-                      />
-                      <figcaption>
-                        Syd handing over boxes made by the Carina Men's Shed for
-                        Meals on Wheels
-                      </figcaption>
-                    </figure>
+                    <img
+                      src="assets/mealsOnWheels.jpg"
+                      loading="lazy"
+                      alt="Shed member give toolbox's to meals on wheels"
+                    />
                   </div>
                   <div class="shopGallery">
-                    <figure class="cms-photo">
-                      <img
-                        src="assets/IMG_4592.jpeg"
-                        loading="lazy"
-                        alt="Restored porcelain horse"
-                      />
-                      <figcaption>Restored porcelain horse</figcaption>
-                    </figure>
+                    <img
+                      src="assets/IMG_4592.jpeg"
+                      loading="lazy"
+                      alt="Restored porcelain horse"
+                    />
                   </div>
                 </div>
               </section>
@@ -1036,7 +1109,7 @@
         openFromHash(location.hash);
 
         window.addEventListener("hashchange", () =>
-          openFromHash(location.hash)
+          openFromHash(location.hash),
         );
       });
     </script>

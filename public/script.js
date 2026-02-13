@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
-          }
+          },
         );
 
         if (response.ok) {
@@ -137,7 +137,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-
 document.addEventListener("click", (e) => {
   const wrapper = e.target.closest(".video-placeholder");
   if (!wrapper) return;
@@ -153,4 +152,47 @@ document.addEventListener("click", (e) => {
       allowfullscreen
     ></iframe>
   `;
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const placeholders = document.querySelectorAll(".video-placeholder");
+
+  placeholders.forEach((wrapper) => {
+    const videoId = wrapper.dataset.videoId;
+    if (!videoId) return;
+
+    // 1) If you already put an <img> in the HTML, keep it
+    let img = wrapper.querySelector("img");
+
+    // 2) Else if data-thumb exists, create an <img> with that
+    if (!img && wrapper.dataset.thumb) {
+      img = document.createElement("img");
+      img.src = wrapper.dataset.thumb;
+      img.alt = "Video preview";
+      img.loading = "lazy";
+      wrapper.insertBefore(img, wrapper.firstChild);
+    }
+
+    // 3) Else auto-generate YouTube thumbnail
+    if (!img) {
+      img = document.createElement("img");
+      img.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      img.alt = "YouTube video preview";
+      img.loading = "lazy";
+      wrapper.insertBefore(img, wrapper.firstChild);
+    }
+
+    // Click to load iframe
+    wrapper.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      iframe.title = "YouTube video player";
+      iframe.allow =
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+
+      wrapper.innerHTML = "";
+      wrapper.appendChild(iframe);
+    });
+  });
 });

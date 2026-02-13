@@ -575,7 +575,6 @@ a:hover {
   max-width: 250px;
   margin: 0 auto 8px;
   border-radius: 8px;
-  background: #ccc;
 }
 
 .shopGallery img {
@@ -583,6 +582,7 @@ a:hover {
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 18px;
 }
 
 /* Inside the workshop area, treat each item as a centered vertical card */
@@ -1125,6 +1125,11 @@ ul {
   gap: 18px;
 }
 
+.video-grid > * {
+  max-width: 320px;
+  justify-self: center;
+}
+
 /* Keep videos clean and consistent */
 .video {
   display: grid;
@@ -1133,7 +1138,7 @@ ul {
 .video video {
   width: 100%;
   max-width: 640px;
-  height: auto; /* natural height unless you prefer fixed ratio */
+  height: auto;
   display: block;
   border-radius: 14px;
   box-shadow: 0 8px 24px rgba(16, 24, 40, 0.12);
@@ -1142,6 +1147,17 @@ ul {
 .video figcaption {
   font-size: 0.95rem;
   color: var(--muted);
+}
+
+.gallery-video {
+  width: 100%;
+  max-width: 250px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
 }
 
 .links-disclaimer {
@@ -1182,6 +1198,8 @@ ul {
 .youtube-wrapper.portrait {
   max-width: 360px;
   aspect-ratio: 9 / 16;
+  max-height: 420px;
+  height: auto;
 }
 
 .youtube-wrapper iframe {
@@ -1204,6 +1222,7 @@ ul {
 
 .video-cta {
   display: inline-block;
+  text-align: center;
   padding: 12px 22px;
   background: linear-gradient(to right, var(--brand), var(--brand-2));
   color: #fff;
