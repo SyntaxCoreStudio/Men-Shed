@@ -225,7 +225,7 @@ a:hover {
 .accordion {
   border: 0;
   background: transparent;
-  max-width: 1100px;
+  max-width: auto;
   margin: 0 auto 32px;
 }
 
@@ -240,7 +240,8 @@ a:hover {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -580,9 +581,10 @@ a:hover {
 .shopGallery img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   border-radius: 18px;
+  background-color: #5C1F0F;
 }
 
 /* Inside the workshop area, treat each item as a centered vertical card */
