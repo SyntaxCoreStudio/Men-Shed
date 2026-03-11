@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nuts & Bolts Dashboard</title>
+    <link rel="stylesheet" href="dashboardStyles.css" />
+  </head>
+  <body>
+    <main class="dashboard">
+      <h1>Nuts & Bolts Dashboard</h1>
+
+      <div class="card addNutsBolts">
+        <h2>Upload New Issue</h2>
+
+        <label for="issueTitle">Issue Title</label>
+        <input
+          id="issueTitle"
+          type="text"
+          placeholder="Example: Apr 2026 - Issue 13"
+        />
+
+        <label for="issueNumber">Issue Number</label>
+        <input
+          id="issueNumber"
+          type="number"
+          placeholder="Example: 13"
+          min="1"
+        />
+
+       
+
+        <input
+          id="nutsBoltsFile"
+          type="file"
+          accept="application/pdf"
+          hidden
+        />
+
+        <button id="selectNutsBoltsBtn" type="button">Select PDF</button>
+        <p id="nutsBoltsSelected"></p>
+
+        <button id="uploadNutsBoltsBtn" type="button" disabled>
+          Upload Issue
+        </button>
+
+        <p id="nutsBoltsStatus"></p>
+      </div>
+    </main>
+
+    <script type="module" src="dashboardScript.js"></script>
+  </body>
+</html>

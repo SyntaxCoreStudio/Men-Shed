@@ -196,3 +196,58 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+import { db } from "./firebase-init.js";
+import {
+  collection,
+  getDocs,
+  query,
+  orderBy,
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+const nutsBoltsList = document.getElementById("nutsBoltsList");
+const nutsBoltsListStatus = document.getElementById("nutsBoltsListStatus");
+
+async function loadNutsAndBoltsIssues() {
+  if (!nutsBoltsList || !nutsBoltsListStatus) return;
+
+  try {
+    nutsBoltsListStatus.textContent = "Loading issues...";
+
+    const q = query(
+      collection(db, "nutsAndBoltsIssues"),
+      orderBy("issueNumber", "desc"),
+    );
+
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      nutsBoltsListStatus.textContent = "No issues uploaded yet.";
+      return;
+    }
+
+    nutsBoltsList.innerHTML = "";
+
+    snapshot.forEach((docSnap) => {
+      const issue = docSnap.data();
+
+      const li = document.createElement("li");
+
+      const a = document.createElement("a");
+      a.href = issue.fileUrl;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = issue.title;
+
+      li.appendChild(a);
+      nutsBoltsList.appendChild(li);
+    });
+
+    nutsBoltsListStatus.textContent = "";
+  } catch (error) {
+    console.error(error);
+    nutsBoltsListStatus.textContent = "Could not load issues.";
+  }
+}
+
+loadNutsAndBoltsIssues();
