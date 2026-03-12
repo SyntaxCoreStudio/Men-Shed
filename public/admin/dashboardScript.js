@@ -9,6 +9,10 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
+import {
+  onAuthStateChanged,
+  signOut,
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
 const titleInput = document.getElementById("issueTitle");
 const issueNumberInput = document.getElementById("issueNumber");
@@ -94,3 +98,26 @@ uploadBtn.addEventListener("click", async () => {
     uploadBtn.disabled = false;
   }
 });
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "../members.html";
+    return;
+  }
+
+  console.log("Logged in as:", user.email);
+});
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    try {
+      await signOut(auth);
+      window.location.href = "../members.html";
+    } catch (error) {
+      console.error("Logout error:", error);
+      alert("Failed to log out. Please try again.");
+    }
+  });
+}

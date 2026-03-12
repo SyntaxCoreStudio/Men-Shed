@@ -567,7 +567,7 @@ a:hover {
 }
 
 .workshop-grid .section-grid a:hover h2 {
-  color: var(--brand); /* your blue brand color */
+  color: var(--brand);
 }
 
 /* Responsive square thumbnail that scales with the card width */
@@ -584,12 +584,11 @@ a:hover {
   object-fit: contain;
   display: block;
   border-radius: 18px;
-  background-color: #5C1F0F;
 }
 
 /* Inside the workshop area, treat each item as a centered vertical card */
 .workshop-grid > .section-grid {
-  display: flex; /* you already set this, keeping it here for clarity */
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
@@ -600,7 +599,7 @@ a:hover {
   height: 100%;
 }
 
-/* was .card */
+
 .content-card {
   background: linear-gradient(
     180deg,
@@ -617,18 +616,18 @@ a:hover {
   animation: fadeIn 0.6s forwards;
 }
 
-/* was .media-section.card */
+
 .media-section.content-card {
   width: 100%;
   margin-inline: auto;
 }
 
-/* was .media-section.card > h2 */
+
 .media-section.content-card > h2 {
   margin-bottom: 0.75rem;
 }
 
-/* Tidy spacing using margins rather than <br> tags */
+
 .workshop-grid > .section-grid h2 {
   margin: 0.25rem 0 0.25rem;
 }
@@ -1295,6 +1294,65 @@ ul {
   border-width: 14px 0 14px 22px;
   border-color: transparent transparent transparent white;
 }
+
+
+.member-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.login-card h2 {
+  margin-bottom: 10px;
+}
+
+.login-card p {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.form-group input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+#loginBtn,
+#logoutBtn {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+#loginMessage {
+  margin-top: 14px;
+  font-weight: 500;
+}
+
 
 /* =======================
    Mobile-friendly tweaks
