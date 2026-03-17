@@ -251,3 +251,303 @@ async function loadNutsAndBoltsIssues() {
 }
 
 loadNutsAndBoltsIssues();
+
+const galleryData = {
+  glass: {
+    title: "Glass",
+    section: "workshop",
+    videos: ["EuhqlP_mKe8", "txHxaSR8_70", "1IaHOBiMOXQ"],
+    images: [
+      { src: "assets/Glasswork-copy2-300x300.jpg", alt: "Glass workshop" },
+      { src: "assets/IMG_4593.jpeg", alt: "Glass workshop project display" },
+    ],
+  },
+
+  leather: {
+    title: "Leather",
+    section: "workshop",
+    videos: ["RrxTlizKFF0"],
+    images: [
+      { src: "assets/leatherwork.jpg", alt: "Leather workshop" },
+      { src: "assets/IMG_4589.jpeg", alt: "Leather workshop project display" },
+    ],
+  },
+
+  wood: {
+    title: "Wood",
+    section: "workshop",
+    videos: ["wjizZHFv8U4"],
+    images: [
+      {
+        src: "assets/Woodwork-lathe-IMG_E0033cr-e1642731617388-300x300.jpg",
+        alt: "Wood workshop",
+      },
+      {
+        src: "assets/DSC2756-scaled-e1642731579677-300x300.jpg",
+        alt: "Woodwork display",
+      },
+      { src: "assets/IMG_4588.jpeg", alt: "Community wood projects" },
+      { src: "assets/IMG_4590.jpeg", alt: "Community wood projects" },
+      { src: "assets/IMG_4594.jpeg", alt: "Community wood projects" },
+      { src: "assets/IMG_4596.jpeg", alt: "Community wood projects" },
+      { src: "assets/IMG_4598.jpeg", alt: "Community wood projects" },
+    ],
+  },
+
+  metal: {
+    title: "Metal",
+    section: "workshop",
+    videos: [],
+    images: [{ src: "assets/metalwork.jpg", alt: "Metal workshop" }],
+  },
+
+  photography: {
+    title: "Photography",
+    section: "groups",
+    videos: [],
+    images: [
+      {
+        src: "assets/Bruce T Summer Holidays at Currimundi.jpeg",
+        alt: "Photography summer display",
+      },
+      {
+        src: "assets/Andrew Clarkson image1.jpeg",
+        alt: "Photography close up image",
+      },
+      {
+        src: "assets/Bruce Tranter Friendly Freddo.jpeg",
+        alt: "Photography close up image",
+      },
+      {
+        src: "assets/Darryl Neville Bonner 3.jpeg",
+        alt: "Photography bridges display",
+      },
+      {
+        src: "assets/PE Park Run 2.jpeg",
+        alt: "Photography community display",
+      },
+    ],
+  },
+
+  art: {
+    title: "Art",
+    section: "groups",
+    videos: [],
+    images: [
+      { src: "assets/art.jpg", alt: "Art group" },
+      { src: "assets/IMG_4597.jpeg", alt: "Art group display" },
+    ],
+  },
+
+  games: {
+    title: "Games and Cards",
+    section: "groups",
+    videos: [],
+    images: [
+      { src: "assets/IMG_4543.jpeg", alt: "Games and cards" },
+      { src: "assets/boardGames.jpg", alt: "Board games and card playing" },
+    ],
+  },
+
+  gardening: {
+    title: "Gardening",
+    section: "groups",
+    videos: [],
+    images: [{ src: "assets/IMG_4540.jpeg", alt: "Gardening group" }],
+  },
+
+  kitchen: {
+    title: "Kitchen",
+    section: "groups",
+    videos: [],
+    images: [{ src: "assets/IMG_4538.jpeg", alt: "Kitchen group" }],
+  },
+
+  music: {
+    title: "Music",
+    section: "groups",
+    videos: [],
+    images: [{ src: "assets/band.jpg", alt: "Music group" }],
+  },
+
+  exercise: {
+    title: "Gym",
+    section: "groups",
+    videos: [],
+    images: [{ src: "assets/Exercise-Classes2.jpg", alt: "Exercise classes" }],
+  },
+
+  pool: {
+    title: "Pool",
+    section: "groups",
+    videos: [],
+    images: [
+      {
+        src: "assets/aqua-aerobics-rotated-e1642731910542.jpeg",
+        alt: "Pool exercise classes",
+      },
+    ],
+  },
+
+  trips: {
+    title: "Trips and Travel",
+    section: "community",
+    videos: [],
+    images: [{ src: "assets/outing.jpg", alt: "Trips and travel" }],
+  },
+
+  market: {
+    title: "Market Stalls",
+    section: "community",
+    videos: [],
+    images: [{ src: "assets/Market-Stalls2.jpg", alt: "Market stalls" }],
+  },
+
+  community: {
+    title: "Charity",
+    section: "community",
+    videos: [],
+    images: [
+      {
+        src: "assets/mealsOnWheels.jpg",
+        alt: "Shed members giving toolboxes to Meals on Wheels",
+      },
+      { src: "assets/IMG_4592.jpeg", alt: "Restored porcelain horse" },
+      { src: "assets/Community-Projects-copy2.jpg", alt: "Community projects" },
+    ],
+  },
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  const panels = {
+    workshop: document.querySelector(
+      "#workshopGalleryPanel .activity-gallery-inner",
+    ),
+    groups: document.querySelector(
+      "#groupsGalleryPanel .activity-gallery-inner",
+    ),
+    community: document.querySelector(
+      "#communityGalleryPanel .activity-gallery-inner",
+    ),
+  };
+
+  const panelWrappers = {
+    workshop: document.getElementById("workshopGalleryPanel"),
+    groups: document.getElementById("groupsGalleryPanel"),
+    community: document.getElementById("communityGalleryPanel"),
+  };
+
+  const cards = document.querySelectorAll(".activity-card");
+  let activeGallery = null;
+
+  function createVideoEmbed(videoId) {
+    return `
+      <div class="gallery-video-card">
+        <div class="video-responsive">
+          <iframe
+            src="https://www.youtube.com/embed/${videoId}"
+            title="YouTube video player"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    `;
+  }
+
+  function createImageCard(image) {
+    return `
+      <div class="shopGallery">
+        <img src="${image.src}" alt="${image.alt}" loading="lazy" />
+      </div>
+    `;
+  }
+
+  function buildGalleryHTML(item) {
+    const videosHTML = item.videos.map(createVideoEmbed).join("");
+    const imagesHTML = item.images.map(createImageCard).join("");
+
+    return `
+      <div class="activity-gallery-content">
+        <div class="activity-gallery-header">
+          <h3 class="heading-wood">${item.title}</h3>
+        </div>
+        <div class="activity-gallery-grid">
+          ${videosHTML}
+          ${imagesHTML}
+        </div>
+      </div>
+    `;
+  }
+
+  function resetCards() {
+    cards.forEach((card) => card.setAttribute("aria-expanded", "false"));
+  }
+
+  function hideAllPanels() {
+    Object.values(panelWrappers).forEach((panel) => {
+      panel.hidden = true;
+      panel.classList.remove("is-open");
+    });
+  }
+
+  function openGallery(key, clickedCard) {
+    const item = galleryData[key];
+    if (!item) return;
+
+    const panel = panels[item.section];
+    const panelWrapper = panelWrappers[item.section];
+    if (!panel || !panelWrapper) return;
+
+    Object.entries(panels).forEach(([sectionName, sectionPanel]) => {
+      sectionPanel.innerHTML = "";
+    });
+
+    hideAllPanels();
+    resetCards();
+
+    panel.innerHTML = buildGalleryHTML(item);
+    panelWrapper.hidden = false;
+
+    requestAnimationFrame(() => {
+      panelWrapper.classList.add("is-open");
+    });
+
+    clickedCard.setAttribute("aria-expanded", "true");
+    activeGallery = key;
+
+    setTimeout(() => {
+      panelWrapper.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 100);
+  }
+
+  function closeGallery() {
+    hideAllPanels();
+    resetCards();
+    activeGallery = null;
+  }
+
+  cards.forEach((card) => {
+    const key = card.dataset.gallery;
+
+    card.addEventListener("click", () => {
+      if (activeGallery === key) {
+        closeGallery();
+      } else {
+        openGallery(key, card);
+      }
+    });
+
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        if (activeGallery === key) {
+          closeGallery();
+        } else {
+          openGallery(key, card);
+        }
+      }
+    });
+  });
+});

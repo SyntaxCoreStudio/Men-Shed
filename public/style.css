@@ -315,6 +315,114 @@ a:hover {
   border-bottom: none; /* no line under the last one */
 }
 
+.activity-card {
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.activity-card:hover,
+.activity-card:focus {
+  transform: translateY(-4px);
+}
+
+.activity-card:focus-visible {
+  outline: 3px solid #1a4fa3;
+  outline-offset: 4px;
+  border-radius: 16px;
+}
+
+.activity-card[aria-expanded="true"] {
+  transform: translateY(-4px);
+}
+
+.activity-gallery-panel {
+  margin-top: 2rem;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    max-height 0.45s ease,
+    opacity 0.35s ease,
+    transform 0.35s ease,
+    margin-top 0.35s ease;
+}
+
+.activity-gallery-panel.is-open {
+  max-height: 4000px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.activity-gallery-inner {
+  padding-top: 0.5rem;
+}
+
+.activity-gallery-content {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.activity-gallery-header {
+  margin-bottom: 1rem;
+}
+
+.activity-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.gallery-video-card {
+  background: #f7f7f7;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.video-responsive {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+.video-responsive iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.activity-gallery-grid .shopGallery {
+  margin: 0;
+}
+
+.activity-gallery-grid .shopGallery img {
+  width: 100%;
+  height: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  border-radius: 16px;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .activity-gallery-content {
+    padding: 1rem;
+  }
+
+  .activity-gallery-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Mobile menu: hidden by default, slides open when active */
 @media (max-width: 768px) {
   .site-header {
