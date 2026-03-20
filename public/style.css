@@ -316,11 +316,50 @@ a:hover {
 }
 
 .activity-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   cursor: pointer;
   transition:
     transform 0.25s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
+    box-shadow 0.25s ease;
+}
+
+.activity-gallery-row {
+  grid-column: 1 / -1;
+  width: 100%;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.activity-gallery-row.is-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.activity-inline-gallery {
+  width: 100%;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.activity-inline-gallery.is-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.activity-inline-gallery-inner {
+  width: 100%;
 }
 
 .activity-card:hover,
@@ -336,6 +375,7 @@ a:hover {
 
 .activity-card[aria-expanded="true"] {
   transform: translateY(-4px);
+  outline: 2px solid rgba(26, 79, 163, 0.25);
 }
 
 .activity-gallery-panel {
@@ -363,10 +403,13 @@ a:hover {
 }
 
 .activity-gallery-content {
-  background: #fff;
-  border-radius: 20px;
+  width: 100%;
   padding: 1.5rem;
+  border-radius: 18px;
+  background: #fff;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .activity-gallery-header {
@@ -375,29 +418,39 @@ a:hover {
 
 .activity-gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 280px));
   gap: 1rem;
-  align-items: start;
+  justify-content: center;
+  justify-items: center;
 }
 
 .gallery-video-card {
-  background: #f7f7f7;
-  border-radius: 16px;
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gallery-video-card:hover {
+  transform: translateY(-3px);
+  transition: transform 0.2s ease;
 }
 
 .video-responsive {
   position: relative;
   width: 100%;
-  padding-top: 56.25%;
+  max-width: 320px;
+  margin: 0 auto;    
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 14px;
+  overflow: hidden;
 }
 
 .video-responsive iframe {
-  position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
+  display: block;
 }
 
 .activity-gallery-grid .shopGallery {
@@ -413,18 +466,76 @@ a:hover {
   display: block;
 }
 
+.photo-sections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
+.photo-section-column {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.photo-section-heading {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a4fa3;
+  letter-spacing: 0.3px;
+}
+
+.photo-section-images {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.photo-section-column .shopGallery {
+  width: 100%;
+  max-width: 240px;
+  margin: 0 auto;
+}
+
 @media (max-width: 768px) {
   .activity-gallery-content {
-    padding: 1rem;
+    text-align: center;
   }
 
   .activity-gallery-grid {
-    grid-template-columns: 1fr;
+    justify-content: center;
   }
-}
 
-/* Mobile menu: hidden by default, slides open when active */
-@media (max-width: 768px) {
+  .gallery-video-card,
+  .shopGallery {
+    margin: 0 auto;
+  }
+
+  .gallery-video-card,
+  .shopGallery img {
+    max-width: 320px;
+    width: 100%;
+  }
+
+  .photo-sections-grid {
+    justify-content: center;
+  }
+
+  .photo-section-column {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .photo-section-images {
+    align-items: center;
+  }
+
   .site-header {
     flex-wrap: wrap;
   }
@@ -471,7 +582,29 @@ a:hover {
   .nav-toggle {
     display: flex;
   }
+
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .site-header {
+    padding: 10px 4vw;
+  }
+
+  /* your nav links are 2rem by default, which is huge on phones */
+  .nav a {
+    font-size: 1rem;
+    padding: 0.9rem 1rem;
+  }
+
+  /* make the logo a bit smaller on phones */
+  .site-header img {
+    height: 56px;
+  }
 }
+
+
 
 /* ---------- Main content ---------- */
 .content {
@@ -1483,22 +1616,7 @@ ul {
 }
 
 /* 2) Header and nav: smaller buttons and better tap targets */
-@media (max-width: 768px) {
-  .site-header {
-    padding: 10px 4vw;
-  }
 
-  /* your nav links are 2rem by default, which is huge on phones */
-  .nav a {
-    font-size: 1rem;
-    padding: 0.9rem 1rem;
-  }
-
-  /* make the logo a bit smaller on phones */
-  .site-header img {
-    height: 56px;
-  }
-}
 
 /* 3) Accordion body: remove extra padding since cards have padding */
 .accordion-body {
@@ -1530,12 +1648,6 @@ ul {
 }
 
 /* 6) Video grid: collapse to 1 column on phones, reduce gaps */
-@media (max-width: 768px) {
-  .video-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-}
 
 /* 7) Gallery thumbs: keep square, smaller by default, grow on tablets */
 .shopGallery {
@@ -1543,6 +1655,8 @@ ul {
   aspect-ratio: 1 / 1;
   margin: 0 auto 8px;
 }
+}
+
 @media (max-width: 560px) {
   .shopGallery {
     max-width: 60vw;
@@ -1660,5 +1774,56 @@ figure {
     display: flex;
     justify-content: center;
     padding-inline: 0; /* remove extra padding you added */
+  }
+}
+
+@media (max-width: 768px) {
+  .activity-gallery-content {
+    text-align: center;
+  }
+
+  .activity-gallery-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    justify-content: center;
+  }
+
+  .gallery-video-card {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .video-responsive {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .activity-gallery-grid .shopGallery {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .activity-gallery-grid .shopGallery img {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .photo-sections-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .photo-section-column {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .photo-section-images {
+    align-items: center;
   }
 }

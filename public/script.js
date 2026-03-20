@@ -252,13 +252,13 @@ async function loadNutsAndBoltsIssues() {
 
 loadNutsAndBoltsIssues();
 
+// GALLERY 
 const galleryData = {
   glass: {
     title: "Glass",
     section: "workshop",
     videos: ["EuhqlP_mKe8", "txHxaSR8_70", "1IaHOBiMOXQ"],
     images: [
-      { src: "assets/Glasswork-copy2-300x300.jpg", alt: "Glass workshop" },
       { src: "assets/IMG_4593.jpeg", alt: "Glass workshop project display" },
     ],
   },
@@ -268,7 +268,6 @@ const galleryData = {
     section: "workshop",
     videos: ["RrxTlizKFF0"],
     images: [
-      { src: "assets/leatherwork.jpg", alt: "Leather workshop" },
       { src: "assets/IMG_4589.jpeg", alt: "Leather workshop project display" },
     ],
   },
@@ -298,33 +297,53 @@ const galleryData = {
     title: "Metal",
     section: "workshop",
     videos: [],
-    images: [{ src: "assets/metalwork.jpg", alt: "Metal workshop" }],
+    images: [ ],
   },
 
   photography: {
     title: "Photography",
     section: "groups",
     videos: [],
-    images: [
+    photoSections: [
       {
-        src: "assets/Bruce T Summer Holidays at Currimundi.jpeg",
-        alt: "Photography summer display",
+        heading: "Summer",
+        images: [
+          {
+            src: "assets/Bruce T Summer Holidays at Currimundi.jpeg",
+            alt: "Photography summer display",
+          },
+        ],
       },
       {
-        src: "assets/Andrew Clarkson image1.jpeg",
-        alt: "Photography close up image",
+        heading: "Close Ups",
+        images: [
+          {
+            src: "assets/Andrew Clarkson image1.jpeg",
+            alt: "Photography close up image",
+          },
+          {
+            src: "assets/Bruce Tranter Friendly Freddo.jpeg",
+            alt: "Photography close up image",
+          },
+        ],
       },
       {
-        src: "assets/Bruce Tranter Friendly Freddo.jpeg",
-        alt: "Photography close up image",
+        heading: "Bridges",
+        images: [
+          {
+            src: "assets/Darryl Neville Bonner 3.jpeg",
+            alt: "Photography bridges display",
+          },
+        ],
       },
       {
-        src: "assets/Darryl Neville Bonner 3.jpeg",
-        alt: "Photography bridges display",
-      },
-      {
-        src: "assets/PE Park Run 2.jpeg",
-        alt: "Photography community display",
+        heading: "Community",
+        images: [
+          {
+            src: "assets/PE Park Run 2.jpeg",
+            alt: "Photography community display",
+          },
+        ],
       },
     ],
   },
@@ -334,7 +353,6 @@ const galleryData = {
     section: "groups",
     videos: [],
     images: [
-      { src: "assets/art.jpg", alt: "Art group" },
       { src: "assets/IMG_4597.jpeg", alt: "Art group display" },
     ],
   },
@@ -344,7 +362,6 @@ const galleryData = {
     section: "groups",
     videos: [],
     images: [
-      { src: "assets/IMG_4543.jpeg", alt: "Games and cards" },
       { src: "assets/boardGames.jpg", alt: "Board games and card playing" },
     ],
   },
@@ -353,54 +370,49 @@ const galleryData = {
     title: "Gardening",
     section: "groups",
     videos: [],
-    images: [{ src: "assets/IMG_4540.jpeg", alt: "Gardening group" }],
+    images: [],
   },
 
   kitchen: {
     title: "Kitchen",
     section: "groups",
     videos: [],
-    images: [{ src: "assets/IMG_4538.jpeg", alt: "Kitchen group" }],
+    images: [],
   },
 
   music: {
     title: "Music",
     section: "groups",
     videos: [],
-    images: [{ src: "assets/band.jpg", alt: "Music group" }],
+    images: [],
   },
 
   exercise: {
     title: "Gym",
     section: "groups",
     videos: [],
-    images: [{ src: "assets/Exercise-Classes2.jpg", alt: "Exercise classes" }],
+    images: [],
   },
 
   pool: {
     title: "Pool",
     section: "groups",
     videos: [],
-    images: [
-      {
-        src: "assets/aqua-aerobics-rotated-e1642731910542.jpeg",
-        alt: "Pool exercise classes",
-      },
-    ],
+    images: [],
   },
 
   trips: {
     title: "Trips and Travel",
     section: "community",
     videos: [],
-    images: [{ src: "assets/outing.jpg", alt: "Trips and travel" }],
+    images: [],
   },
 
   market: {
     title: "Market Stalls",
     section: "community",
     videos: [],
-    images: [{ src: "assets/Market-Stalls2.jpg", alt: "Market stalls" }],
+    images: [],
   },
 
   community: {
@@ -408,10 +420,6 @@ const galleryData = {
     section: "community",
     videos: [],
     images: [
-      {
-        src: "assets/mealsOnWheels.jpg",
-        alt: "Shed members giving toolboxes to Meals on Wheels",
-      },
       { src: "assets/IMG_4592.jpeg", alt: "Restored porcelain horse" },
       { src: "assets/Community-Projects-copy2.jpg", alt: "Community projects" },
     ],
@@ -419,26 +427,9 @@ const galleryData = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  const panels = {
-    workshop: document.querySelector(
-      "#workshopGalleryPanel .activity-gallery-inner",
-    ),
-    groups: document.querySelector(
-      "#groupsGalleryPanel .activity-gallery-inner",
-    ),
-    community: document.querySelector(
-      "#communityGalleryPanel .activity-gallery-inner",
-    ),
-  };
-
-  const panelWrappers = {
-    workshop: document.getElementById("workshopGalleryPanel"),
-    groups: document.getElementById("groupsGalleryPanel"),
-    community: document.getElementById("communityGalleryPanel"),
-  };
-
   const cards = document.querySelectorAll(".activity-card");
-  let activeGallery = null;
+  let activeCard = null;
+  let activePanel = null;
 
   function createVideoEmbed(videoId) {
     return `
@@ -464,90 +455,138 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function buildGalleryHTML(item) {
-    const videosHTML = item.videos.map(createVideoEmbed).join("");
-    const imagesHTML = item.images.map(createImageCard).join("");
+function buildGalleryHTML(item) {
+  const videosHTML = item.videos?.map(createVideoEmbed).join("") || "";
+
+  if (item.photoSections) {
+    const photoSectionsHTML = item.photoSections
+      .map(
+        (section) => `
+          <div class="photo-section-column">
+            <h4 class="photo-section-heading">${section.heading}</h4>
+            <div class="photo-section-images">
+              ${section.images.map(createImageCard).join("")}
+            </div>
+          </div>
+        `,
+      )
+      .join("");
 
     return `
       <div class="activity-gallery-content">
         <div class="activity-gallery-header">
-          <h3 class="heading-wood">${item.title}</h3>
         </div>
-        <div class="activity-gallery-grid">
-          ${videosHTML}
-          ${imagesHTML}
+
+        ${videosHTML ? `<div class="activity-gallery-grid">${videosHTML}</div>` : ""}
+
+        <div class="photo-sections-grid">
+          ${photoSectionsHTML}
         </div>
       </div>
     `;
   }
 
-  function resetCards() {
-    cards.forEach((card) => card.setAttribute("aria-expanded", "false"));
+  const imagesHTML = item.images?.map(createImageCard).join("") || "";
+
+  return `
+    <div class="activity-gallery-content">
+      <div class="activity-gallery-header">
+      </div>
+      <div class="activity-gallery-grid">
+        ${videosHTML}
+        ${imagesHTML}
+      </div>
+    </div>
+  `;
+}
+
+  function closeGallery() {
+    if (activePanel) {
+      activePanel.remove();
+      activePanel = null;
+    }
+
+    if (activeCard) {
+      activeCard.setAttribute("aria-expanded", "false");
+      activeCard = null;
+    }
   }
 
-  function hideAllPanels() {
-    Object.values(panelWrappers).forEach((panel) => {
-      panel.hidden = true;
-      panel.classList.remove("is-open");
-    });
+  function getCardsInSameGrid(card) {
+    return Array.from(card.parentElement.children).filter((el) =>
+      el.classList.contains("activity-card"),
+    );
   }
 
-  function openGallery(key, clickedCard) {
+  function getColumnCount(grid) {
+    const styles = window.getComputedStyle(grid);
+    const columns = styles.gridTemplateColumns.split(" ").length;
+    return columns;
+  }
+
+  function openGallery(card) {
+    const key = card.dataset.gallery;
     const item = galleryData[key];
     if (!item) return;
 
-    const panel = panels[item.section];
-    const panelWrapper = panelWrappers[item.section];
-    if (!panel || !panelWrapper) return;
+    const grid = card.parentElement;
+    const cardsInGrid = getCardsInSameGrid(card);
+    const columnCount = getColumnCount(grid);
+    const cardIndex = cardsInGrid.indexOf(card);
 
-    Object.entries(panels).forEach(([sectionName, sectionPanel]) => {
-      sectionPanel.innerHTML = "";
-    });
+    closeGallery();
 
-    hideAllPanels();
-    resetCards();
-
+    const panel = document.createElement("div");
+    panel.className = "activity-gallery-row";
     panel.innerHTML = buildGalleryHTML(item);
-    panelWrapper.hidden = false;
+
+    const rowEndIndex =
+      Math.floor(cardIndex / columnCount) * columnCount + (columnCount - 1);
+
+    const insertAfterCard =
+      cardsInGrid[Math.min(rowEndIndex, cardsInGrid.length - 1)];
+
+    insertAfterCard.insertAdjacentElement("afterend", panel);
 
     requestAnimationFrame(() => {
-      panelWrapper.classList.add("is-open");
+      panel.classList.add("is-open");
     });
 
-    clickedCard.setAttribute("aria-expanded", "true");
-    activeGallery = key;
+    card.setAttribute("aria-expanded", "true");
+    activeCard = card;
+    activePanel = panel;
 
     setTimeout(() => {
-      panelWrapper.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }, 100);
   }
 
-  function closeGallery() {
-    hideAllPanels();
-    resetCards();
-    activeGallery = null;
-  }
-
   cards.forEach((card) => {
-    const key = card.dataset.gallery;
-
     card.addEventListener("click", () => {
-      if (activeGallery === key) {
+      if (activeCard === card) {
         closeGallery();
       } else {
-        openGallery(key, card);
+        openGallery(card);
       }
     });
 
     card.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        if (activeGallery === key) {
+
+        if (activeCard === card) {
           closeGallery();
         } else {
-          openGallery(key, card);
+          openGallery(card);
         }
       }
     });
+  });
+
+  window.addEventListener("resize", () => {
+    if (activeCard) {
+      const currentCard = activeCard;
+      openGallery(currentCard);
+    }
   });
 });
