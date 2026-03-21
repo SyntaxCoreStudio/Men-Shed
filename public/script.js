@@ -555,10 +555,6 @@ function buildGalleryHTML(item) {
     card.setAttribute("aria-expanded", "true");
     activeCard = card;
     activePanel = panel;
-
-    setTimeout(() => {
-      panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }, 100);
   }
 
   cards.forEach((card) => {
@@ -581,12 +577,5 @@ function buildGalleryHTML(item) {
         }
       }
     });
-  });
-
-  window.addEventListener("resize", () => {
-    if (activeCard) {
-      const currentCard = activeCard;
-      openGallery(currentCard);
-    }
   });
 });
