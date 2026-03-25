@@ -205,59 +205,66 @@ import {
   orderBy,
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
-const nutsBoltsList = document.getElementById("nutsBoltsList");
-const nutsBoltsListStatus = document.getElementById("nutsBoltsListStatus");
+/**
+ * Generic function to load PDF links from Firestore
+ * @param {string} collectionName - Name of the Firestore collection
+ * @param {string} listId - ID of the <ul> element
+ * @param {string} statusId - ID of the status message element
+ */
+async function loadPdfIssues(collectionName, listId, statusId) {
+  const listElement = document.getElementById(listId);
+  const statusElement = document.getElementById(statusId);
 
-async function loadNutsAndBoltsIssues() {
-  if (!nutsBoltsList || !nutsBoltsListStatus) return;
+  if (!listElement || !statusElement) return;
 
   try {
-    nutsBoltsListStatus.textContent = "Loading issues...";
+    statusElement.textContent = `Loading ${collectionName.replace(/([A-Z])/g, " $1").toLowerCase()}...`;
 
     const q = query(
-      collection(db, "nutsAndBoltsIssues"),
-      orderBy("issueNumber", "desc"),
+      collection(db, collectionName),
+      orderBy("issueNumber", "desc"), // Ensure both collections use this field name
     );
 
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      nutsBoltsListStatus.textContent = "No issues uploaded yet.";
+      statusElement.textContent = "No issues uploaded yet.";
       return;
     }
 
-    nutsBoltsList.innerHTML = "";
+    listElement.innerHTML = "";
 
     snapshot.forEach((docSnap) => {
       const issue = docSnap.data();
-
       const li = document.createElement("li");
-
       const a = document.createElement("a");
+
       a.href = issue.fileUrl;
       a.target = "_blank";
       a.rel = "noopener";
       a.textContent = issue.title;
 
       li.appendChild(a);
-      nutsBoltsList.appendChild(li);
+      listElement.appendChild(li);
     });
 
-    nutsBoltsListStatus.textContent = "";
+    statusElement.textContent = "";
   } catch (error) {
-    console.error(error);
-    nutsBoltsListStatus.textContent = "Could not load issues.";
+    console.error(`Error loading ${collectionName}:`, error);
+    statusElement.textContent = "Could not load issues.";
   }
 }
 
-loadNutsAndBoltsIssues();
+// --- Initialize both sections ---
+loadPdfIssues("nutsAndBoltsIssues", "nutsBoltsList", "nutsBoltsListStatus");
+loadPdfIssues("mondayMeetings", "mondayMeetingsList", "mondayMeetingsListStatus");
 
-// GALLERY 
+// GALLERY
 const galleryData = {
   glass: {
     title: "Glass",
     section: "workshop",
-    videos: ["EuhqlP_mKe8", "txHxaSR8_70", "1IaHOBiMOXQ"],
+    videos: ["EuhqlP_mKe8", "txHxaSR8_70", "1IaHOBiMOXQ", "Afmv6AaLB3w"],
     images: [
       { src: "assets/IMG_4593.jpeg", alt: "Glass workshop project display" },
     ],
@@ -297,7 +304,7 @@ const galleryData = {
     title: "Metal",
     section: "workshop",
     videos: [],
-    images: [ ],
+    images: [],
   },
 
   photography: {
@@ -352,9 +359,7 @@ const galleryData = {
     title: "Art",
     section: "groups",
     videos: [],
-    images: [
-      { src: "assets/IMG_4597.jpeg", alt: "Art group display" },
-    ],
+    images: [{ src: "assets/IMG_4597.jpeg", alt: "Art group display" }],
   },
 
   games: {
@@ -418,7 +423,7 @@ const galleryData = {
   community: {
     title: "Charity",
     section: "community",
-    videos: [],
+    videos: ["DXzKplARB5Q"],
     images: [
       { src: "assets/IMG_4592.jpeg", alt: "Restored porcelain horse" },
       { src: "assets/Community-Projects-copy2.jpg", alt: "Community projects" },
@@ -455,13 +460,13 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-function buildGalleryHTML(item) {
-  const videosHTML = item.videos?.map(createVideoEmbed).join("") || "";
+  function buildGalleryHTML(item) {
+    const videosHTML = item.videos?.map(createVideoEmbed).join("") || "";
 
-  if (item.photoSections) {
-    const photoSectionsHTML = item.photoSections
-      .map(
-        (section) => `
+    if (item.photoSections) {
+      const photoSectionsHTML = item.photoSections
+        .map(
+          (section) => `
           <div class="photo-section-column">
             <h4 class="photo-section-heading">${section.heading}</h4>
             <div class="photo-section-images">
@@ -469,10 +474,10 @@ function buildGalleryHTML(item) {
             </div>
           </div>
         `,
-      )
-      .join("");
+        )
+        .join("");
 
-    return `
+      return `
       <div class="activity-gallery-content">
         <div class="activity-gallery-header">
         </div>
@@ -484,11 +489,11 @@ function buildGalleryHTML(item) {
         </div>
       </div>
     `;
-  }
+    }
 
-  const imagesHTML = item.images?.map(createImageCard).join("") || "";
+    const imagesHTML = item.images?.map(createImageCard).join("") || "";
 
-  return `
+    return `
     <div class="activity-gallery-content">
       <div class="activity-gallery-header">
       </div>
@@ -498,7 +503,7 @@ function buildGalleryHTML(item) {
       </div>
     </div>
   `;
-}
+  }
 
   function closeGallery() {
     if (activePanel) {

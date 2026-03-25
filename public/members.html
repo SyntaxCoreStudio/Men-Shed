@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -26,7 +26,7 @@
     />
     <meta
       name="keywords"
-      content="Carina Men's Shed members, member login, internal portal, member updates, Carina QLD"
+      content="Carina Men's Shed members, internal portal, member updates, Carina QLD"
     />
     <meta property="og:title" content="Members Area | Carina Men's Shed" />
     <meta
@@ -210,58 +210,23 @@
 
     <main class="container content">
       <section class="section-grid">
-      
-<section class="member-login">
-  <div class="section-text card login-card">
-    <h2 class="heading-wood">Member Login</h2>
+        <div class="section-text card">
+          <h2 class="heading-wood">Nuts & Bolts</h2>
 
-    <form id="loginForm">
-      <div class="form-group">
-        <label for="loginEmail">Email</label>
-        <input type="email" id="loginEmail" required />
-      </div>
-
-      <div class="form-group">
-        <label for="loginPassword">Password</label>
-        <input type="password" id="loginPassword" required />
-      </div>
-
-      <button type="submit" id="loginBtn">Log In</button>
-    </form>
-
-    <p id="loginMessage"></p>
-  </div>
-</section>
-        
+          <ul
+            id="nutsBoltsList"
+            style="list-style-type: none; padding-left: 0; padding-bottom: 5px"
+          ></ul>
+          <p id="nutsBoltsListStatus">Loading issues...</p>
+        </div>
 
         <div class="section-text card">
-          <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="flush-headingOne">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapseOne"
-                  aria-expanded="false"
-                  aria-controls="flush-collapseOne"
-                >
-                  <h2 class="heading-wood">Nuts & Bolts</h2>
-                </button>
-              </h2>
-              <div
-                id="flush-collapseOne"
-                class="accordion-collapse collapse"
-                aria-labelledby="flush-headingOne"
-                data-bs-parent="#accordionFlushExample"
-              >
-<div class="accordion-body">
-  <ul id="nutsBoltsList" style="list-style-type: none; padding-left: 0"></ul>
-  <p id="nutsBoltsListStatus">Loading issues...</p>
-</div>
-              </div>
-            </div>
-          </div>
+          <h2 class="heading-wood">Monday Meetings</h2>
+          <ul
+            id="mondayMeetingsList"
+            style="list-style-type: none; padding-left: 0; padding-bottom: 5px"
+          ></ul>
+          <p id="mondayMeetingsListStatus">Loading issues...</p>
         </div>
       </section>
     </main>
@@ -306,6 +271,9 @@
               </li>
             </ul>
           </nav>
+          <div>
+            <a href="login.html">Admin</a>
+          </div>
         </div>
 
         <div class="footer-bottom">
@@ -319,7 +287,6 @@
     </footer>
 
     <script type="module" src="script.js"></script>
-    <script type="module" src="members-login.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
