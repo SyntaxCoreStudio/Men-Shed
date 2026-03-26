@@ -1,0 +1,390 @@
+/* 1. Variables & Base Reset */
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --sky: #38bdf8;
+  --bg: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --sidebar-bg: #0f172a;
+  --danger: #ef4444;
+  --sidebar-width: 260px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg);
+  font-family:
+    "Inter",
+    -apple-system,
+    sans-serif;
+  color: var(--text-main);
+  margin: 0;
+}
+
+/* 2. Layout Structure */
+.dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#mainTitle {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--sidebar-bg);
+  color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  padding: 2.5rem;
+  width: calc(100% - var(--sidebar-width)); 
+  min-width: 0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* 3. Sidebar Components */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  color: var(--sky);
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--sky);
+  border-radius: 8px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #94a3b8;
+  border-radius: 8px;
+  transition: 0.2s ease;
+  font-weight: 500;
+}
+
+.nav-item:hover {
+  background: #1e293b;
+  color: #f8fafc;
+}
+
+.nav-item.active {
+  background: var(--sky);
+  color: var(--sidebar-bg);
+}
+
+.sidebar-footer {
+  border-top: 1px solid #1e293b;
+  padding-top: 1.5rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background: #475569;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.logout-link {
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-size: 0.75rem;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* 4. Card & Form UI */
+.admin-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 420px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* 5. File & Button Actions */
+.file-area {
+  margin: 1.5rem 0;
+  text-align: center;
+  border: 2px dashed var(--border);
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.file-name-text {
+  font-size: 0.85rem;
+  margin-top: 8px;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.btn-primary,
+.btn-secondary {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: var(--text-main);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+button:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.status-msg {
+  font-size: 0.85rem;
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Ensure the File Manager section stays within the content area */
+#fileManagerSection {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden; /* Prevents the whole page from shaking */
+}
+
+/* The card holding the table needs to handle the overflow */
+#fileManagerSection .admin-card {
+  width: 100%;
+  padding: 1rem;
+  overflow-x: auto; /* This allows ONLY the table to scroll if it's too wide */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling for iPhones */
+}
+
+.file-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.file-table th,
+.file-table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.delete-btn {
+  background: var(--danger);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.delete-btn:hover {
+  opacity: 0.8;
+}
+
+.filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  background: white;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.tab-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+
+/* 1. Hide the Sidebar by default on mobile */
+@media (max-width: 768px) {
+.sidebar {
+    position: fixed; /* Ensures it stays put while scrolling */
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9999; /* Higher than everything else */
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    background-color: #0f172a; /* Ensure background is solid */
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+    box-shadow: 10px 0 15px -3px rgba(0, 0, 0, 0.1); /* Adds depth */
+  }
+
+  /* 2. Make content take full width */
+  .content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  /* 3. Stack the Grid Cards vertically */
+  .grid-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* 4. Show the Hamburger Button */
+  .mobile-menu-btn {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 1rem;
+  }
+
+  /* 5. Make the Table scrollable horizontally */
+  .admin-card {
+    overflow-x: auto;
+    padding: 1rem;
+    min-height: auto; /* Allow cards to shrink on mobile */
+  }
+
+  .file-table {
+    min-width: 500px; /* Forces scroll instead of squishing text */
+  }
+}
+
+/* Hide hamburger on desktop */
+@media (min-width: 769px) {
+  .mobile-menu-btn {
+    display: none;
+  }
+}

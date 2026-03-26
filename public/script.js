@@ -205,49 +205,382 @@ import {
   orderBy,
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
-const nutsBoltsList = document.getElementById("nutsBoltsList");
-const nutsBoltsListStatus = document.getElementById("nutsBoltsListStatus");
+/**
+ * Generic function to load PDF links from Firestore
+ * @param {string} collectionName - Name of the Firestore collection
+ * @param {string} listId - ID of the <ul> element
+ * @param {string} statusId - ID of the status message element
+ */
+async function loadPdfIssues(collectionName, listId, statusId) {
+  const listElement = document.getElementById(listId);
+  const statusElement = document.getElementById(statusId);
 
-async function loadNutsAndBoltsIssues() {
-  if (!nutsBoltsList || !nutsBoltsListStatus) return;
+  if (!listElement || !statusElement) return;
 
   try {
-    nutsBoltsListStatus.textContent = "Loading issues...";
+    statusElement.textContent = `Loading ${collectionName.replace(/([A-Z])/g, " $1").toLowerCase()}...`;
 
     const q = query(
-      collection(db, "nutsAndBoltsIssues"),
-      orderBy("issueNumber", "desc"),
+      collection(db, collectionName),
+      orderBy("issueNumber", "desc"), // Ensure both collections use this field name
     );
 
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      nutsBoltsListStatus.textContent = "No issues uploaded yet.";
+      statusElement.textContent = "No issues uploaded yet.";
       return;
     }
 
-    nutsBoltsList.innerHTML = "";
+    listElement.innerHTML = "";
 
     snapshot.forEach((docSnap) => {
       const issue = docSnap.data();
-
       const li = document.createElement("li");
-
       const a = document.createElement("a");
+
       a.href = issue.fileUrl;
       a.target = "_blank";
       a.rel = "noopener";
       a.textContent = issue.title;
 
       li.appendChild(a);
-      nutsBoltsList.appendChild(li);
+      listElement.appendChild(li);
     });
 
-    nutsBoltsListStatus.textContent = "";
+    statusElement.textContent = "";
   } catch (error) {
-    console.error(error);
-    nutsBoltsListStatus.textContent = "Could not load issues.";
+    console.error(`Error loading ${collectionName}:`, error);
+    statusElement.textContent = "Could not load issues.";
   }
 }
 
-loadNutsAndBoltsIssues();
+// --- Initialize both sections ---
+loadPdfIssues("nutsAndBoltsIssues", "nutsBoltsList", "nutsBoltsListStatus");
+loadPdfIssues("mondayMeetings", "mondayMeetingsList", "mondayMeetingsListStatus");
+
+// GALLERY
+const galleryData = {
+  glass: {
+    title: "Glass",
+    section: "workshop",
+    videos: ["EuhqlP_mKe8", "txHxaSR8_70", "1IaHOBiMOXQ", "Afmv6AaLB3w"],
+    images: [
+      { src: "assets/IMG_4593.jpeg", alt: "Glass workshop project display" },
+    ],
+  },
+
+  leather: {
+    title: "Leather",
+    section: "workshop",
+    videos: ["RrxTlizKFF0"],
+    images: [
+      { src: "assets/IMG_4589.jpeg", alt: "Leather workshop project display" },
+    ],
+  },
+
+  wood: {
+    title: "Wood",
+    section: "workshop",
+    videos: ["wjizZHFv8U4"],
+    images: [
+      {
+        src: "assets/Woodwork-lathe-IMG_E0033cr-e1642731617388-300x300.jpg",
+        alt: "Wood workshop",
+      },
+      {
+        src: "assets/DSC2756-scaled-e1642731579677-300x300.jpg",
+        alt: "Woodwork display",
+      },
+      { src: "assets/IMG_4588.jpeg", alt: "Community wood projects" },
+      { src: "assets/IMG_4590.jpeg", alt: "Community wood projects" },
+      { src: "assets/IMG_4594.jpeg", alt: "Community wood projects" },
+      { src: "assets/IMG_4596.jpeg", alt: "Community wood projects" },
+      { src: "assets/IMG_4598.jpeg", alt: "Community wood projects" },
+    ],
+  },
+
+  metal: {
+    title: "Metal",
+    section: "workshop",
+    videos: [],
+    images: [],
+  },
+
+  photography: {
+    title: "Photography",
+    section: "groups",
+    videos: [],
+    photoSections: [
+      {
+        heading: "Summer",
+        images: [
+          {
+            src: "assets/Bruce T Summer Holidays at Currimundi.jpeg",
+            alt: "Photography summer display",
+          },
+        ],
+      },
+      {
+        heading: "Close Ups",
+        images: [
+          {
+            src: "assets/Andrew Clarkson image1.jpeg",
+            alt: "Photography close up image",
+          },
+          {
+            src: "assets/Bruce Tranter Friendly Freddo.jpeg",
+            alt: "Photography close up image",
+          },
+        ],
+      },
+      {
+        heading: "Bridges",
+        images: [
+          {
+            src: "assets/Darryl Neville Bonner 3.jpeg",
+            alt: "Photography bridges display",
+          },
+        ],
+      },
+      {
+        heading: "Community",
+        images: [
+          {
+            src: "assets/PE Park Run 2.jpeg",
+            alt: "Photography community display",
+          },
+        ],
+      },
+    ],
+  },
+
+  art: {
+    title: "Art",
+    section: "groups",
+    videos: [],
+    images: [{ src: "assets/IMG_4597.jpeg", alt: "Art group display" }],
+  },
+
+  games: {
+    title: "Games and Cards",
+    section: "groups",
+    videos: [],
+    images: [
+      { src: "assets/boardGames.jpg", alt: "Board games and card playing" },
+    ],
+  },
+
+  gardening: {
+    title: "Gardening",
+    section: "groups",
+    videos: [],
+    images: [],
+  },
+
+  kitchen: {
+    title: "Kitchen",
+    section: "groups",
+    videos: [],
+    images: [],
+  },
+
+  music: {
+    title: "Music",
+    section: "groups",
+    videos: [],
+    images: [],
+  },
+
+  exercise: {
+    title: "Gym",
+    section: "groups",
+    videos: [],
+    images: [],
+  },
+
+  pool: {
+    title: "Pool",
+    section: "groups",
+    videos: [],
+    images: [],
+  },
+
+  trips: {
+    title: "Trips and Travel",
+    section: "community",
+    videos: [],
+    images: [],
+  },
+
+  market: {
+    title: "Market Stalls",
+    section: "community",
+    videos: [],
+    images: [],
+  },
+
+  community: {
+    title: "Charity",
+    section: "community",
+    videos: ["DXzKplARB5Q"],
+    images: [
+      { src: "assets/IMG_4592.jpeg", alt: "Restored porcelain horse" },
+      { src: "assets/Community-Projects-copy2.jpg", alt: "Community projects" },
+    ],
+  },
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll(".activity-card");
+  let activeCard = null;
+  let activePanel = null;
+
+  function createVideoEmbed(videoId) {
+    return `
+      <div class="gallery-video-card">
+        <div class="video-responsive">
+          <iframe
+            src="https://www.youtube.com/embed/${videoId}"
+            title="YouTube video player"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    `;
+  }
+
+  function createImageCard(image) {
+    return `
+      <div class="shopGallery">
+        <img src="${image.src}" alt="${image.alt}" loading="lazy" />
+      </div>
+    `;
+  }
+
+  function buildGalleryHTML(item) {
+    const videosHTML = item.videos?.map(createVideoEmbed).join("") || "";
+
+    if (item.photoSections) {
+      const photoSectionsHTML = item.photoSections
+        .map(
+          (section) => `
+          <div class="photo-section-column">
+            <h4 class="photo-section-heading">${section.heading}</h4>
+            <div class="photo-section-images">
+              ${section.images.map(createImageCard).join("")}
+            </div>
+          </div>
+        `,
+        )
+        .join("");
+
+      return `
+      <div class="activity-gallery-content">
+        <div class="activity-gallery-header">
+        </div>
+
+        ${videosHTML ? `<div class="activity-gallery-grid">${videosHTML}</div>` : ""}
+
+        <div class="photo-sections-grid">
+          ${photoSectionsHTML}
+        </div>
+      </div>
+    `;
+    }
+
+    const imagesHTML = item.images?.map(createImageCard).join("") || "";
+
+    return `
+    <div class="activity-gallery-content">
+      <div class="activity-gallery-header">
+      </div>
+      <div class="activity-gallery-grid">
+        ${videosHTML}
+        ${imagesHTML}
+      </div>
+    </div>
+  `;
+  }
+
+  function closeGallery() {
+    if (activePanel) {
+      activePanel.remove();
+      activePanel = null;
+    }
+
+    if (activeCard) {
+      activeCard.setAttribute("aria-expanded", "false");
+      activeCard = null;
+    }
+  }
+
+  function getCardsInSameGrid(card) {
+    return Array.from(card.parentElement.children).filter((el) =>
+      el.classList.contains("activity-card"),
+    );
+  }
+
+  function getColumnCount(grid) {
+    const styles = window.getComputedStyle(grid);
+    const columns = styles.gridTemplateColumns.split(" ").length;
+    return columns;
+  }
+
+  function openGallery(card) {
+    const key = card.dataset.gallery;
+    const item = galleryData[key];
+    if (!item) return;
+
+    const grid = card.parentElement;
+    const cardsInGrid = getCardsInSameGrid(card);
+    const columnCount = getColumnCount(grid);
+    const cardIndex = cardsInGrid.indexOf(card);
+
+    closeGallery();
+
+    const panel = document.createElement("div");
+    panel.className = "activity-gallery-row";
+    panel.innerHTML = buildGalleryHTML(item);
+
+    const rowEndIndex =
+      Math.floor(cardIndex / columnCount) * columnCount + (columnCount - 1);
+
+    const insertAfterCard =
+      cardsInGrid[Math.min(rowEndIndex, cardsInGrid.length - 1)];
+
+    insertAfterCard.insertAdjacentElement("afterend", panel);
+
+    requestAnimationFrame(() => {
+      panel.classList.add("is-open");
+    });
+
+    card.setAttribute("aria-expanded", "true");
+    activeCard = card;
+    activePanel = panel;
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      if (activeCard === card) {
+        closeGallery();
+      } else {
+        openGallery(card);
+      }
+    });
+
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+
+        if (activeCard === card) {
+          closeGallery();
+        } else {
+          openGallery(card);
+        }
+      }
+    });
+  });
+});

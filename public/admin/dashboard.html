@@ -4,51 +4,139 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="dashboardStyles.css" />
+    <link rel="stylesheet" href="dashboardStyle.css" />
   </head>
   <body>
-    <main class="dashboard">
-      <h1>Admin Dashboard</h1>
+    <div class="dashboard-wrapper">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="logo">
+            <div class="logo-icon"></div>
+            <span>AdminPanel</span>
+          </div>
+          <nav class="sidebar-nav">
+            <a href="#" id="navDashboard" class="nav-item active">
+              <span class="icon">📊</span> Dashboard
+            </a>
+            <a href="#" id="navFiles" class="nav-item">
+              <span class="icon">📁</span> All Files
+            </a>
+          </nav>
+        </div>
 
-      <button id="logoutBtn">Log Out</button>
+        <div class="sidebar-footer">
+          <div class="user-info">
+            <div class="avatar">A</div>
+            <div class="user-details">
+              <span class="username">Admin User</span>
+              <button id="logoutBtn" class="logout-link">Log Out</button>
+            </div>
+          </div>
+        </div>
+      </aside>
 
-      <div class="card addNutsBolts">
-        <h2>Nuts & Bolts - Upload New Issue</h2>
+      <main class="content">
+        <header class="dashboard-header">
+          <div class="header-left">
+      <button id="mobileMenuBtn" class="mobile-menu-btn">☰</button>
+          <h1 id="mainTitle">Dashboard Overview</h1>
+          </div>
+        </header>
 
-        <label for="issueTitle">Issue Title</label>
-        <input
-          id="issueTitle"
-          type="text"
-          placeholder="Ex: Apr 2026 - Issue 13"
-        />
+        <div id="uploadView" class="grid-container">
+          <section class="admin-card">
+            <div class="card-header">
+              <h3>Nuts & Bolts</h3>
+              <span class="badge">Newsletter</span>
+            </div>
+            <div class="form-group">
+              <label>Issue Title</label>
+              <input
+                id="issueTitle"
+                type="text"
+                placeholder="Apr 2026 - Issue 13"
+              />
+            </div>
+            <div class="form-group">
+              <label>Issue Number (for sorting)</label>
+              <input id="issueNumber" type="number" placeholder="13" />
+            </div>
+            <div class="file-area">
+              <input
+                id="nutsBoltsFile"
+                type="file"
+                accept="application/pdf"
+                hidden
+              />
+              <button
+                id="selectNutsBoltsBtn"
+                type="button"
+                class="btn-secondary"
+              >
+                Choose PDF
+              </button>
+              <p id="nutsBoltsSelected" class="file-name-text"></p>
+            </div>
+            <button id="uploadNutsBoltsBtn" class="btn-primary" disabled>
+              Upload Issue
+            </button>
+            <p id="nutsBoltsStatus" class="status-msg"></p>
+          </section>
 
-        <label for="issueNumber">Issue Number</label>
-        <input
-          id="issueNumber"
-          type="number"
-          placeholder="Example: 13"
-          min="1"
-        />
+          <section class="admin-card">
+            <div class="card-header">
+              <h3>Monday Meetings</h3>
+              <span class="badge">Meetings</span>
+            </div>
+            <div class="form-group">
+              <label>Meeting Title</label>
+              <input id="meetingTitle" type="text" placeholder="23rd March 2026" />
+            </div>
+            <div class="form-group">
+              <label>Meeting Number (for sorting)</label>
+              <input id="meetingNumber" type="number" placeholder="14" />
+            </div>
+            <div class="file-area">
+              <input id="mondayFile" type="file" accept=".pdf" hidden />
+              <button id="selectMondayBtn" type="button" class="btn-secondary">
+                Choose PDF
+              </button>
+              <p id="mondaySelected" class="file-name-text"></p>
+            </div>
+            <button id="uploadMondayBtn" class="btn-primary" disabled>
+              Upload Meeting
+            </button>
+            <p id="mondayStatus" class="status-msg"></p>
+          </section>
+        </div>
 
-       
+        <div id="fileManagerSection" style="display: none">
+          <div class="filter-tabs">
+            <button class="tab-btn active" data-col="nutsAndBoltsIssues">
+              Nuts & Bolts
+            </button>
+            <button class="tab-btn" data-col="mondayMeetings">
+              Monday Meetings
+            </button>
+          </div>
 
-        <input
-          id="nutsBoltsFile"
-          type="file"
-          accept="application/pdf"
-          hidden
-        />
-
-        <button id="selectNutsBoltsBtn" type="button">Select PDF</button>
-        <p id="nutsBoltsSelected"></p>
-
-        <button id="uploadNutsBoltsBtn" type="button" disabled>
-          Upload Issue
-        </button>
-
-        <p id="nutsBoltsStatus"></p>
-      </div>
-    </main>
+          <div class="admin-card">
+            <table class="file-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Issue #</th>
+                  <th>Date Added</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="fileListBody"></tbody>
+            </table>
+            <p id="fileManagerStatus" class="status-msg"></p>
+          </div>
+        </div>
+      </main>
+    </div>
 
     <script type="module" src="dashboardScript.js"></script>
   </body>
