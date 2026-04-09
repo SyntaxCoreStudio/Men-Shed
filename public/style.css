@@ -161,9 +161,9 @@ a:hover {
 }
 .nav a {
   text-decoration: none;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 0.65rem;
   border-radius: 0.5rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .nav a[aria-current="page"] {
@@ -503,107 +503,6 @@ a:hover {
   margin: 0 auto;
 }
 
-@media (max-width: 768px) {
-  .activity-gallery-content {
-    text-align: center;
-  }
-
-  .activity-gallery-grid {
-    justify-content: center;
-  }
-
-  .gallery-video-card,
-  .shopGallery {
-    margin: 0 auto;
-  }
-
-  .gallery-video-card,
-  .shopGallery img {
-    max-width: 320px;
-    width: 100%;
-  }
-
-  .photo-sections-grid {
-    justify-content: center;
-  }
-
-  .photo-section-column {
-    max-width: 320px;
-    margin: 0 auto;
-  }
-
-  .photo-section-images {
-    align-items: center;
-  }
-
-  .site-header {
-    flex-wrap: wrap;
-  }
-
-  .navbar {
-    width: 100%;
-  }
-
-  .nav {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    /* hide by default with a smooth slide animation */
-    max-height: 0;
-    overflow: hidden;
-    background: var(--card);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    transition: max-height 0.3s ease;
-  }
-  .nav li {
-    border-bottom: 1px solid var(--border);
-  }
-  .nav li:last-child {
-    border-bottom: none;
-  }
-
-  .nav a {
-    display: block;
-    padding: 1rem;
-    font-size: 1.05rem;
-  }
-
-  /* show when active */
-  .nav.active {
-    max-height: 600px;
-  }
-
-  /* show the hamburger on mobile */
-  .nav-toggle {
-    display: flex;
-  }
-
-  .video-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .site-header {
-    padding: 10px 4vw;
-  }
-
-  /* your nav links are 2rem by default, which is huge on phones */
-  .nav a {
-    font-size: 1rem;
-    padding: 0.9rem 1rem;
-  }
-
-  /* make the logo a bit smaller on phones */
-  .site-header img {
-    height: 56px;
-  }
-}
-
 /* ---------- Main content ---------- */
 .content {
   padding: 32px 4vw 48px;
@@ -663,6 +562,84 @@ a:hover {
   height: 400px;
   object-fit: contain;
   border-radius: 24px;
+}
+
+.supporters-section {
+  width: 100%;
+  padding: 3rem 4vw 4rem;
+}
+
+.supporters-shell {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(255, 255, 255, 0.95)
+  );
+  border: 3px solid var(--wood-1);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: 2rem;
+}
+
+.supporters-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.supporter-tile {
+  margin: 0;
+}
+
+.supporter-link {
+  min-height: 130px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
+  text-align: center;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.supporter-link:hover {
+  text-decoration: none;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(16, 24, 40, 0.12);
+}
+
+.supporter-logo {
+  max-width: 100%;
+  max-height: 78px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.supporters-disclaimer {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .supporters-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Elevated content cards for readable blocks */
@@ -1001,23 +978,6 @@ a:hover {
   outline-offset: 3px;
 }
 
-/* Mobile: stack vertically */
-@media (max-width: 900px) {
-  .section-grid {
-    grid-template-columns: 1fr;
-  }
-  .media,
-  .media-grid-2 {
-    min-height: 280px;
-  }
-  .workshop-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .shopGallery {
-    max-width: 200px;
-  }
-}
-
 /* Lists with modern markers */
 ul {
   padding-left: 1.1rem;
@@ -1158,13 +1118,6 @@ ul {
   margin: 0.15rem 0;
 }
 
-/* Stack to one column on mobile */
-@media (max-width: 800px) {
-  .schedule-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* ---------- Footer ---------- */
 /* Footer - full bleed background, centered content, nicer spacing */
 .site-footer {
@@ -1303,28 +1256,6 @@ ul {
   margin-top: 8px;
 }
 
-/* On smaller screens, stack everything */
-@media (max-width: 900px) {
-  .contact-layout {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Responsive footer */
-@media (max-width: 900px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-@media (max-width: 640px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-  }
-  .footer-inner {
-    padding: 24px 5vw 12px;
-  }
-}
-
 /* ---------- Utilities ---------- */
 .visually-hidden {
   position: absolute !important;
@@ -1336,57 +1267,6 @@ ul {
   clip: rect(0 0 0 0);
   white-space: nowrap;
   border: 0;
-}
-
-/* ---------- Responsive ---------- */
-@media (max-width: 900px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 640px) {
-  .content {
-    padding: 24px 5vw 40px;
-  }
-  .footer-grid {
-    grid-template-columns: 1fr;
-  }
-  .site-header {
-    padding: 12px 5vw 6px;
-  }
-}
-
-@media (max-width: 1200px) {
-  .workshop-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-/* Tablets */
-@media (max-width: 900px) {
-  .workshop-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* Mobile */
-@media (max-width: 560px) {
-  .workshop-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 900px) {
-  .shopGallery {
-    max-width: 200px;
-  }
-}
-
-@media (max-width: 560px) {
-  .shopGallery {
-    max-width: 160px;
-  }
 }
 
 /* Anchor jump feels better if header is fixed or tall */
@@ -1475,13 +1355,6 @@ ul {
   opacity: 0.8;
 }
 
-/* Make the video area breathe on small screens */
-@media (max-width: 640px) {
-  .media-section.card {
-    padding: 16px;
-  }
-}
-
 .coming-soon {
   color: #777;
   font-style: italic;
@@ -1556,8 +1429,15 @@ ul {
 }
 
 .video-placeholder {
-  cursor: pointer;
   position: relative;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
 }
 
 .video-placeholder img {
@@ -1567,25 +1447,28 @@ ul {
   display: block;
 }
 
-/* Play button overlay */
 .play-button {
   position: absolute;
   inset: 0;
-  background: none;
+  display: grid;
+  place-items: center;
   border: none;
+  background: transparent;
+  padding: 0;
   cursor: pointer;
 }
 
 .play-button::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 68px;
-  height: 68px;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.65);
+  content: "▶";
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 2rem;
+  line-height: 1;
 }
 
 .play-button::after {
@@ -1656,24 +1539,122 @@ ul {
   font-weight: 500;
 }
 
-/* =======================
-   Mobile-friendly tweaks
-   ======================= */
+/* ===== Media Modal ===== */
+.media-modal[hidden] {
+  display: none;
+}
 
-/* 1) Base scaling for small screens */
-@media (max-width: 640px) {
-  html {
-    font-size: 15px;
-  } /* slightly smaller type */
-  .content {
-    padding: 20px 4vw 32px;
-  }
-  h1 {
-    font-size: clamp(1.6rem, 5vw, 2rem);
-  }
-  h2 {
-    font-size: clamp(1.1rem, 4.2vw, 1.35rem);
-  }
+.media-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+}
+
+.media-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 12, 20, 0.88);
+  backdrop-filter: blur(6px);
+}
+
+.media-modal-dialog {
+  position: relative;
+  z-index: 1;
+  width: min(96vw, 1400px);
+  height: min(92vh, 980px);
+  margin: 4vh auto;
+  padding: 1rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-modal-content {
+  width: 100%;
+  height: 100%;
+  padding: 3.5rem 4.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.media-modal-content img,
+.media-modal-content video,
+.media-modal-content iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+  border-radius: 16px;
+  background: #000;
+}
+
+/* Images and videos fit inside the same modal area cleanly */
+.media-modal-content img,
+.media-modal-content video {
+  object-fit: contain;
+}
+
+/* Keep videos/YouTube a consistent large size */
+.media-modal-content iframe {
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+/* Close button */
+.media-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(21, 77, 136, 0.12);
+  color: var(--brand);
+  font-size: 1.9rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  z-index: 3;
+}
+
+/* Prev / next buttons */
+.media-modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(21, 77, 136, 0.16);
+  color: var(--brand);
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  z-index: 3;
+}
+
+.media-modal-prev {
+  left: 16px;
+}
+
+.media-modal-next {
+  right: 16px;
+}
+
+.media-modal-nav[hidden] {
+  display: none;
 }
 
 /* 2) Header and nav: smaller buttons and better tap targets */
@@ -1684,15 +1665,6 @@ ul {
 }
 
 /* 4) Cards: ensure inner padding is not excessive on mobile */
-@media (max-width: 640px) {
-  /* If you kept the Bootstrap .card class for your gallery sections, target both */
-  .media-section.card,
-  .media-section.content-card {
-    padding: 14px;
-    margin: 12px auto;
-    border-width: 2px;
-  }
-}
 
 /* 5) Video: one size fits all, scales down cleanly */
 .media-section .video {
@@ -1714,6 +1686,301 @@ ul {
   max-width: clamp(160px, 46vw, 260px);
   aspect-ratio: 1 / 1;
   margin: 0 auto 8px;
+}
+
+/* 10) Prevent images from overflowing containers */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 1) Kill default figure spacing (THIS is the usual culprit) */
+figure {
+  margin: 0;
+}
+
+.story-two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .story-two-column {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 2) On mobile, force items in the hero grid to center */
+@media (max-width: 900px) {
+  .section-grid.hero-grid {
+    justify-items: center; /* centers grid children */
+  }
+
+  .section-grid.hero-grid .home-video {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-inline: 0; /* remove extra padding you added */
+  }
+}
+
+@media (max-width: 768px) {
+  .activity-gallery-content {
+    text-align: center;
+  }
+
+  .activity-gallery-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    justify-content: center;
+  }
+
+  .gallery-video-card {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .video-responsive {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .activity-gallery-grid .shopGallery {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .activity-gallery-grid .shopGallery img {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .photo-sections-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .photo-section-column {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .photo-section-images {
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .activity-gallery-content {
+    text-align: center;
+  }
+
+  .activity-gallery-grid {
+    justify-content: center;
+  }
+
+  .gallery-video-card,
+  .shopGallery {
+    margin: 0 auto;
+  }
+
+  .gallery-video-card,
+  .shopGallery img {
+    max-width: 320px;
+    width: 100%;
+  }
+
+  .photo-sections-grid {
+    justify-content: center;
+  }
+
+  .photo-section-column {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .photo-section-images {
+    align-items: center;
+  }
+
+  .site-header {
+    flex-wrap: wrap;
+  }
+
+  .navbar {
+    width: 100%;
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    /* hide by default with a smooth slide animation */
+    max-height: 0;
+    overflow: hidden;
+    background: var(--card);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    transition: max-height 0.3s ease;
+  }
+  .nav li {
+    border-bottom: 1px solid var(--border);
+  }
+  .nav li:last-child {
+    border-bottom: none;
+  }
+
+  .nav a {
+    display: block;
+    padding: 1rem;
+    font-size: 1.05rem;
+  }
+
+  /* show when active */
+  .nav.active {
+    max-height: 600px;
+  }
+
+  /* show the hamburger on mobile */
+  .nav-toggle {
+    display: flex;
+  }
+
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .site-header {
+    padding: 10px 4vw;
+  }
+
+  /* your nav links are 2rem by default, which is huge on phones */
+  .nav a {
+    font-size: 1rem;
+    padding: 0.9rem 1rem;
+  }
+
+  /* make the logo a bit smaller on phones */
+  .site-header img {
+    height: 56px;
+  }
+}
+
+/* Make the video area breathe on small screens */
+@media (max-width: 640px) {
+  .media-section.card {
+    padding: 16px;
+  }
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 900px) {
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+  .media,
+  .media-grid-2 {
+    min-height: 280px;
+  }
+  .workshop-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .shopGallery {
+    max-width: 200px;
+  }
+}
+
+/* Stack to one column on mobile */
+@media (max-width: 800px) {
+  .schedule-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* On smaller screens, stack everything */
+@media (max-width: 900px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive footer */
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-inner {
+    padding: 24px 5vw 12px;
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .content {
+    padding: 24px 5vw 40px;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .site-header {
+    padding: 12px 5vw 6px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .workshop-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Tablets */
+@media (max-width: 900px) {
+  .workshop-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Mobile */
+@media (max-width: 560px) {
+  .workshop-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .shopGallery {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 560px) {
+  .shopGallery {
+    max-width: 160px;
+  }
 }
 
 @media (max-width: 560px) {
@@ -1740,11 +2007,69 @@ ul {
   }
 }
 
-/* 10) Prevent images from overflowing containers */
-img,
-video {
-  max-width: 100%;
-  height: auto;
+@media (max-width: 768px) {
+  .media-modal-dialog {
+    width: 98vw;
+    height: 94vh;
+    margin: 3vh auto;
+    padding: 0.75rem;
+    border-radius: 16px;
+  }
+
+  .media-modal-content {
+    padding: 3.25rem 2.5rem 1rem;
+  }
+
+  .media-modal-close {
+    width: 44px;
+    height: 44px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .media-modal-nav {
+    width: 44px;
+    height: 44px;
+    font-size: 1.7rem;
+  }
+
+  .media-modal-prev {
+    left: 8px;
+  }
+
+  .media-modal-next {
+    right: 8px;
+  }
+}
+
+/* =======================
+   Mobile-friendly tweaks
+   ======================= */
+
+/* 1) Base scaling for small screens */
+@media (max-width: 640px) {
+  html {
+    font-size: 15px;
+  } /* slightly smaller type */
+  .content {
+    padding: 20px 4vw 32px;
+  }
+  h1 {
+    font-size: clamp(1.6rem, 5vw, 2rem);
+  }
+  h2 {
+    font-size: clamp(1.1rem, 4.2vw, 1.35rem);
+  }
+}
+
+@media (max-width: 640px) {
+  /* If you kept the Bootstrap .card class for your gallery sections, target both */
+  .media-section.card,
+  .media-section.content-card {
+    padding: 14px;
+    margin: 12px auto;
+    border-width: 2px;
+  }
 }
 
 /* Tablet: drop to 2 columns */
@@ -1814,75 +2139,5 @@ video {
 @media (max-width: 900px) {
   .section-grid.hero-grid {
     padding-inline: 4vw;
-  }
-}
-
-/* 1) Kill default figure spacing (THIS is the usual culprit) */
-figure {
-  margin: 0;
-}
-
-/* 2) On mobile, force items in the hero grid to center */
-@media (max-width: 900px) {
-  .section-grid.hero-grid {
-    justify-items: center; /* centers grid children */
-  }
-
-  .section-grid.hero-grid .home-video {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding-inline: 0; /* remove extra padding you added */
-  }
-}
-
-@media (max-width: 768px) {
-  .activity-gallery-content {
-    text-align: center;
-  }
-
-  .activity-gallery-grid {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    justify-content: center;
-  }
-
-  .gallery-video-card {
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
-  }
-
-  .video-responsive {
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
-  }
-
-  .activity-gallery-grid .shopGallery {
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
-  }
-
-  .activity-gallery-grid .shopGallery img {
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
-  }
-
-  .photo-sections-grid {
-    grid-template-columns: 1fr;
-    justify-items: center;
-  }
-
-  .photo-section-column {
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
-  }
-
-  .photo-section-images {
-    align-items: center;
   }
 }

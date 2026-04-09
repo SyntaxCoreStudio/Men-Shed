@@ -9,25 +9,32 @@
   background: linear-gradient(135deg, var(--brand), var(--brand-2));
   color: #fff;
   padding: clamp(20px, 4vw, 48px) 0;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
+
 .page-intro-inner {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 5vw;
 }
+
 .page-intro h1 {
-  margin: 0 0 .5rem;
+  margin: 0 0 0.5rem;
   color: #fff;
 }
+
 .page-intro p {
   margin: 0;
-  color: rgba(255,255,255,0.92);
+  color: rgba(255, 255, 255, 0.92);
 }
 
-/* Cards: clean, readable, subtle depth */
-.card{
-  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));
+/* Cards */
+.card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(255, 255, 255, 0.94)
+  );
   border: 3px solid var(--wood-1);
   border-radius: 16px;
   box-shadow: var(--shadow);
@@ -35,74 +42,95 @@
   margin: 18px auto;
 }
 
-/* Headings inside cards with wood accent line already present */
-.section-text.card h2 {
-  margin-bottom: .75rem;
-}
-
-/* Comfortable reading width */
-.section-text.card p,
-.section-text.card ul {
-  max-width: 70ch;
-}
-
-/* Section grid spacing tuned for reading */
-.section-grid{
+/* Section grid */
+.section-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;  /* two columns */
+  grid-template-columns: 1fr 1fr;
   gap: clamp(16px, 2.5vw, 28px);
   align-items: start;
   padding: clamp(16px, 2vw, 28px) 0;
   width: 100%;
 }
 
-/* collapse to single column on smaller screens */
-@media (max-width: 900px){
-  .section-grid{
-    grid-template-columns: 1fr;
-  }
-}
-
-/* --- Supporters section override --- */
+/* --- SUPPORTERS SECTION (CLEAN) --- */
 .section-grid.supporters {
-  grid-template-columns: 1fr;   /* only one column */
-  justify-items: center;        /* center the content horizontally */
-             /* optional, centers text too */
+  grid-template-columns: 1fr;
+  justify-items: center;
 }
 
 .section-grid.supporters .card {
-  max-width: 800px;             /* keep it nicely contained */
+  max-width: 900px;
   width: 100%;
 }
 
-/* Supporters: convert list to responsive pills */
-.section-text.card ul {
+.supporters-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 1.5rem 0 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
-.section-text.card ul li a{
-  display: block;
-  padding: 10px 14px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+.supporter-item {
+  margin: 0;
+}
+
+.supporter-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 88px;
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(18, 41, 76, 0.15);
+  border-radius: 14px;
   color: var(--text);
   text-decoration: none;
-  transition: box-shadow .2s ease, border-color .2s ease, transform .05s ease;
-}
-.section-text.card ul li a:hover{
-  border-color: var(--brand);
-  box-shadow: 0 6px 18px rgba(16,24,40,.10);
-  transform: translateY(-1px);
+  text-align: center;
+  font-weight: 600;
+  line-height: 1.4;
+  transition: all 0.18s ease;
 }
 
-/* Keep header wood strip fix you added */
-.site-header{
+.supporter-link:hover {
+  transform: translateY(-2px);
+  border-color: rgba(18, 41, 76, 0.3);
+  box-shadow: 0 10px 22px rgba(16, 24, 40, 0.08);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* Logo card */
+.supporter-item-logo .supporter-link {
+  flex-direction: column;
+  gap: 12px;
+  min-height: 140px;
+  padding: 22px;
+}
+
+.supporter-logo {
+  max-width: 320px;
+  max-height: 150px;
+  object-fit: contain;
+  display: block;
+}
+
+.supporter-item-logo span {
+  font-size: 0.95rem;
+  color: var(--brand);
+}
+
+/* Disclaimer */
+.links-disclaimer {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(20, 20, 20, 0.6);
+}
+
+/* Header styling */
+.site-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -111,43 +139,40 @@
   padding: 12px 5vw;
   border-bottom: 1px solid var(--border);
   background:
-    linear-gradient(180deg, rgba(0,0,0,0.03), transparent),
-    var(--card);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.03), transparent), var(--card);
 }
 
-.site-header::after{
+.site-header::after {
   content: "";
   position: absolute;
-  left: 0; right: 0; bottom: -1px;
+  left: 0;
+  right: 0;
+  bottom: -1px;
   height: 8px;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      var(--wood-1) 0 16px,
-      var(--wood-2) 16px 28px,
-      var(--wood-3) 28px 40px
-    );
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.2),
-              inset 0 -1px 0 rgba(0,0,0,.15);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--wood-1) 0 16px,
+    var(--wood-2) 16px 28px,
+    var(--wood-3) 28px 40px
+  );
   pointer-events: none;
 }
 
-/* Tweak global background to keep contrast with dark text */
-html, body {
+/* Background */
+html,
+body {
   background: linear-gradient(135deg, var(--brand-3), var(--brand-2));
 }
-.content { padding: 32px 5vw 48px; } /* container handles side padding */
 
-/* Mobile spacing */
-@media (max-width: 640px){
-  .page-intro p { font-size: .95rem; }
-  .section-text.card p,
-  .section-text.card ul { max-width: none; }
+.content {
+  padding: 32px 5vw 48px;
 }
 
+/* Info strip */
 .info-strip {
   padding: 16px 0;
 }
+
 .info-inner {
   max-width: 1200px;
   margin: 0 auto;
@@ -156,15 +181,38 @@ html, body {
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
+
 .info-item {
-  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(255, 255, 255, 0.94)
+  );
   border: 3px solid var(--wood-1);
   border-radius: 12px;
   padding: 12px 14px;
   box-shadow: var(--shadow);
 }
-.info-item strong { color: var(--brand); margin-right: 8px; }
 
-@media (max-width: 800px){
-  .info-inner { grid-template-columns: 1fr; }
+.info-item strong {
+  color: var(--brand);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .supporters-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .info-inner {
+    grid-template-columns: 1fr;
+  }
 }

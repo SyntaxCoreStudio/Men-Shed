@@ -141,17 +141,16 @@ document.addEventListener("click", (e) => {
   const wrapper = e.target.closest(".video-placeholder");
   if (!wrapper) return;
 
-  const videoId = wrapper.dataset.videoId;
+  e.preventDefault();
 
-  wrapper.innerHTML = `
-    <iframe
-      src="https://www.youtube.com/embed/${videoId}?autoplay=1"
-      title="Carina Men's Shed Video"
-      frameborder="0"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      allowfullscreen
-    ></iframe>
-  `;
+  const videoId = wrapper.dataset.videoId;
+  if (!videoId) return;
+
+  openMediaModal({
+    type: "youtube",
+    src: `https://www.youtube.com/embed/${videoId}?autoplay=1`,
+    title: "Carina Men's Shed Video",
+  });
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -181,19 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
       img.loading = "lazy";
       wrapper.insertBefore(img, wrapper.firstChild);
     }
-
-    // Click to load iframe
-    wrapper.addEventListener("click", () => {
-      const iframe = document.createElement("iframe");
-      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-      iframe.title = "YouTube video player";
-      iframe.allow =
-        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-      iframe.allowFullscreen = true;
-
-      wrapper.innerHTML = "";
-      wrapper.appendChild(iframe);
-    });
   });
 });
 
@@ -257,7 +243,11 @@ async function loadPdfIssues(collectionName, listId, statusId) {
 
 // --- Initialize both sections ---
 loadPdfIssues("nutsAndBoltsIssues", "nutsBoltsList", "nutsBoltsListStatus");
-loadPdfIssues("mondayMeetings", "mondayMeetingsList", "mondayMeetingsListStatus");
+loadPdfIssues(
+  "mondayMeetings",
+  "mondayMeetingsList",
+  "mondayMeetingsListStatus",
+);
 
 // GALLERY
 const galleryData = {
@@ -438,18 +428,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function createVideoEmbed(videoId) {
     return `
-      <div class="gallery-video-card">
-        <div class="video-responsive">
-          <iframe
-            src="https://www.youtube.com/embed/${videoId}"
-            title="YouTube video player"
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-          ></iframe>
-        </div>
+    <div class="gallery-video-card">
+      <div class="video-placeholder" data-video-id="${videoId}">
+        <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" />
+        <div class="play-button"></div>
       </div>
-    `;
+    </div>
+  `;
   }
 
   function createImageCard(image) {
@@ -583,4 +568,297 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+});
+
+/* ===== Media Modal ===== */
+/* ===== MEDIA MODAL ===== */
+const mediaModal = document.getElementById("mediaModal");
+const mediaModalContent = document.getElementById("mediaModalContent");
+const mediaModalClose = document.getElementById("mediaModalClose");
+const mediaModalPrev = document.getElementById("mediaModalPrev");
+const mediaModalNext = document.getElementById("mediaModalNext");
+
+let lastFocusedElement = null;
+let currentGalleryItems = [];
+let currentGalleryIndex = 0;
+let currentMediaType = null;
+
+function showModalNav(show) {
+  if (!mediaModalPrev || !mediaModalNext) return;
+
+  mediaModalPrev.hidden = !show;
+  mediaModalNext.hidden = !show;
+}
+
+function buildImageForModal(img) {
+  const modalImg = document.createElement("img");
+  modalImg.src = img.currentSrc || img.src;
+  modalImg.alt = img.alt || "Expanded image";
+  return modalImg;
+}
+
+function buildVideoForModal(video) {
+  const modalVideo = document.createElement("video");
+  modalVideo.controls = true;
+  modalVideo.autoplay = true;
+  modalVideo.playsInline = true;
+
+  if (video.poster) {
+    modalVideo.poster = video.poster;
+  }
+
+  if (video.currentSrc) {
+    modalVideo.src = video.currentSrc;
+  } else {
+    const sources = video.querySelectorAll("source");
+    sources.forEach((source) => {
+      const newSource = document.createElement("source");
+      newSource.src = source.src;
+      newSource.type = source.type || "";
+      modalVideo.appendChild(newSource);
+    });
+  }
+
+  return modalVideo;
+}
+
+function buildIframeForModal(iframe) {
+  const modalIframe = document.createElement("iframe");
+  modalIframe.allow =
+    "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+  modalIframe.allowFullscreen = true;
+
+  const src = iframe.getAttribute("src") || "";
+
+  if (src.includes("youtube.com/embed/")) {
+    modalIframe.src = src.includes("?")
+      ? `${src}&autoplay=1`
+      : `${src}?autoplay=1`;
+  } else {
+    modalIframe.src = src;
+  }
+
+  modalIframe.title = iframe.title || "Expanded video";
+  return modalIframe;
+}
+
+function renderCurrentModalItem() {
+  if (!mediaModalContent) return;
+
+  mediaModalContent.innerHTML = "";
+
+  if (currentMediaType === "image") {
+    const currentImg = currentGalleryItems[currentGalleryIndex];
+    if (!currentImg) return;
+
+    mediaModalContent.appendChild(buildImageForModal(currentImg));
+    showModalNav(currentGalleryItems.length > 1);
+    return;
+  }
+
+  if (currentMediaType === "video") {
+    const currentVideo = currentGalleryItems[currentGalleryIndex];
+    if (!currentVideo) return;
+
+    mediaModalContent.appendChild(buildVideoForModal(currentVideo));
+    showModalNav(false);
+    return;
+  }
+
+  if (currentMediaType === "iframe") {
+    const currentIframe = currentGalleryItems[currentGalleryIndex];
+    if (!currentIframe) return;
+
+    mediaModalContent.appendChild(buildIframeForModal(currentIframe));
+    showModalNav(false);
+  }
+}
+
+function openImageGallery(clickedImg) {
+  const galleryRoot =
+    clickedImg.closest(
+      ".activity-inline-gallery, .activity-gallery-content, .activity-card",
+    ) || document;
+
+  currentGalleryItems = Array.from(
+    galleryRoot.querySelectorAll(".shopGallery img"),
+  );
+
+  currentGalleryIndex = currentGalleryItems.indexOf(clickedImg);
+  currentMediaType = "image";
+
+  if (currentGalleryIndex < 0) {
+    currentGalleryItems = [clickedImg];
+    currentGalleryIndex = 0;
+  }
+
+  lastFocusedElement = document.activeElement;
+  mediaModal.hidden = false;
+  document.body.style.overflow = "hidden";
+  renderCurrentModalItem();
+
+  if (mediaModalClose) {
+    mediaModalClose.focus();
+  }
+}
+
+function openSingleVideo(videoEl) {
+  currentGalleryItems = [videoEl];
+  currentGalleryIndex = 0;
+  currentMediaType = "video";
+
+  lastFocusedElement = document.activeElement;
+  mediaModal.hidden = false;
+  document.body.style.overflow = "hidden";
+  renderCurrentModalItem();
+
+  if (mediaModalClose) {
+    mediaModalClose.focus();
+  }
+}
+
+function openMediaModal(item) {
+  const modal = document.getElementById("mediaModal");
+  const modalContent = document.getElementById("mediaModalContent");
+
+  modalContent.innerHTML = "";
+
+  if (item.type === "youtube") {
+    const iframe = document.createElement("iframe");
+    iframe.src = item.src;
+    iframe.title = item.title || "YouTube video player";
+    iframe.allow =
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+
+    modalContent.appendChild(iframe);
+  }
+
+  modal.hidden = false;
+  document.body.classList.add("modal-open");
+}
+
+function closeMediaModal() {
+  if (!mediaModal || !mediaModalContent) return;
+
+  const iframe = mediaModalContent.querySelector("iframe");
+  const video = mediaModalContent.querySelector("video");
+
+  if (iframe) {
+    iframe.src = "";
+  }
+
+  if (video) {
+    video.pause();
+    video.currentTime = 0;
+  }
+
+  mediaModalContent.innerHTML = "";
+  mediaModal.hidden = true;
+  document.body.style.overflow = "";
+
+  currentGalleryItems = [];
+  currentGalleryIndex = 0;
+  currentMediaType = null;
+  showModalNav(false);
+
+  if (lastFocusedElement) {
+    lastFocusedElement.focus();
+  }
+}
+
+function showNextImage() {
+  if (currentMediaType !== "image" || currentGalleryItems.length < 2) return;
+
+  currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryItems.length;
+  renderCurrentModalItem();
+}
+
+function showPrevImage() {
+  if (currentMediaType !== "image" || currentGalleryItems.length < 2) return;
+
+  currentGalleryIndex =
+    (currentGalleryIndex - 1 + currentGalleryItems.length) %
+    currentGalleryItems.length;
+  renderCurrentModalItem();
+}
+
+function getClickableMediaTarget(target) {
+  return target.closest(
+    ".activity-gallery-content .shopGallery img, " +
+      ".activity-gallery-content video, " +
+      ".activity-gallery-content .video-responsive iframe, " +
+      ".photo-section-images .shopGallery img",
+  );
+}
+
+document.addEventListener("click", (event) => {
+  const closeTrigger = event.target.closest("[data-close-modal]");
+  if (closeTrigger) {
+    closeMediaModal();
+    return;
+  }
+
+  const mediaTarget = getClickableMediaTarget(event.target);
+  if (!mediaTarget) return;
+
+  event.preventDefault();
+  event.stopPropagation();
+
+  if (mediaTarget.tagName === "IMG") {
+    openImageGallery(mediaTarget);
+    return;
+  }
+
+  if (mediaTarget.tagName === "VIDEO") {
+    openSingleVideo(mediaTarget);
+    return;
+  }
+
+  if (mediaTarget.tagName === "IFRAME") {
+    const src = mediaTarget.getAttribute("src");
+
+    openMediaModal({
+      type: "youtube",
+      src: src.includes("?") ? `${src}&autoplay=1` : `${src}?autoplay=1`,
+      title: mediaTarget.title || "YouTube video",
+    });
+
+    return;
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (mediaModal?.hidden) return;
+
+  if (event.key === "Escape") {
+    closeMediaModal();
+    return;
+  }
+
+  if (event.key === "ArrowRight") {
+    showNextImage();
+    return;
+  }
+
+  if (event.key === "ArrowLeft") {
+    showPrevImage();
+  }
+});
+
+if (mediaModalClose) {
+  mediaModalClose.addEventListener("click", closeMediaModal);
+}
+
+if (mediaModalNext) {
+  mediaModalNext.addEventListener("click", showNextImage);
+}
+
+if (mediaModalPrev) {
+  mediaModalPrev.addEventListener("click", showPrevImage);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  showModalNav(false);
 });
