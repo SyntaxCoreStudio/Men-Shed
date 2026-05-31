@@ -1694,6 +1694,47 @@ ul {
   margin: 0 auto 8px;
 }
 
+#searchResults {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  width: 250px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.search-result {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  color: black;
+}
+
+.search-result:hover {
+  background: #f0f0f0;
+}
+
+.members-three-column {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(240px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+
+.trip-item {
+  margin-bottom: 1rem;
+}
+
+.trip-item strong {
+  display: block;
+}
+
+.trip-meta {
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
 /* 10) Prevent images from overflowing containers */
 img,
 video {
@@ -1730,6 +1771,12 @@ figure {
     display: flex;
     justify-content: center;
     padding-inline: 0; /* remove extra padding you added */
+  }
+}
+
+@media (max-width: 900px) {
+  .members-three-column {
+    grid-template-columns: 1fr;
   }
 }
 

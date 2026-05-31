@@ -209,10 +209,9 @@
     </header>
 
     <main class="container content">
-      <section class="section-grid">
+      <section class="section-grid members-three-column">
         <div class="section-text card">
           <h2 class="heading-wood">Nuts & Bolts</h2>
-
           <ul
             id="nutsBoltsList"
             style="list-style-type: none; padding-left: 0; padding-bottom: 5px"
@@ -227,6 +226,15 @@
             style="list-style-type: none; padding-left: 0; padding-bottom: 5px"
           ></ul>
           <p id="mondayMeetingsListStatus">Loading issues...</p>
+        </div>
+
+        <div class="section-text card">
+          <h2 class="heading-wood">Bus Trips</h2>
+          <ul
+            id="tripList"
+            style="list-style-type: none; padding-left: 0; padding-bottom: 5px"
+          ></ul>
+          <p id="tripListStatus">Loading trips...</p>
         </div>
       </section>
     </main>
@@ -292,5 +300,6 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script type="module" src="js/trip-signup.js"></script>
   </body>
 </html>
