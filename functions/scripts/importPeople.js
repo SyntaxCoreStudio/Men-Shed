@@ -15,36 +15,43 @@ const filePath = path.join(__dirname, "../../dummy-data/WebExpPrsn.txt");
 async function importPeople() {
   const fileContent = fs.readFileSync(filePath, "utf8");
 
-  const lines = fileContent
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter((line) => line !== "");
+  // Keep the structure intact; only trim whitespace from lines
+  const lines = fileContent.split(/\r?\n/).map((line) => line.trim());
 
   let importedCount = 0;
+  let currentId = null;
 
-  for (let i = 0; i < lines.length; i += 2) {
-    if (lines[i] === "|") break;
+  for (const line of lines) {
+    if (line === "|") break; // Stop if separator is hit
+    if (line === "") continue; // Skip the blank lines safely
 
-    const personId = Number(lines[i]);
-    const personName = lines[i + 1];
+    if (currentId === null) {
+      // If we don't have an ID yet, this line must be the ID
+      currentId = Number(line);
+      if (isNaN(currentId)) {
+        console.log(`Skipping invalid ID: "${line}"`);
+        currentId = null; // Reset
+      }
+    } else {
+      // If we already have an ID, this line must be the Name
+      const personName = line;
 
-    if (!personId || !personName) {
-      console.log(`Skipping invalid record at line ${i + 1}`);
-      continue;
+      await db.collection("people").doc(String(currentId)).set(
+        {
+          personId: currentId,
+          name: personName,
+          searchName: personName.toLowerCase(),
+          updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+        },
+        { merge: true },
+      );
+
+      importedCount++;
+      console.log(`Imported: ${currentId} - ${personName}`);
+
+      // Reset ID tracker for the next person
+      currentId = null;
     }
-
-    await db.collection("people").doc(String(personId)).set(
-      {
-        personId,
-        name: personName,
-        searchName: personName.toLowerCase(),
-        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
-      },
-      { merge: true },
-    );
-
-    importedCount++;
-    console.log(`Imported: ${personId} - ${personName}`);
   }
 
   console.log(`Import complete. ${importedCount} people imported.`);

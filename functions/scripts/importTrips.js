@@ -23,37 +23,43 @@ async function importTrips() {
 
   const fileContent = fs.readFileSync(filePath, "utf8");
 
-  // Keep empty lines intact so our 8-line record block indexing remains aligned
-  const lines = fileContent.split(/\r?\n/).map((line) => line.trim());
+  // 1. Normalize line endings, then split by a double newline (blank line between records)
+  const tripBlocks = fileContent
+    .replace(/\r\n/g, "\n")
+    .split(/\n\n+/)
+    .map((block) => block.trim())
+    .filter((block) => block !== "");
 
   let importedCount = 0;
   const activeTripIds = [];
 
-  // Loop through lines utilizing a strict 8-line record stride
-  for (let i = 0; i < lines.length; i += 8) {
-    // If we hit the explicit end-of-file symbol, break immediately
-    if (lines[i] === "|") {
+  for (const block of tripBlocks) {
+    // If we hit the explicit end-of-file symbol, stop immediately
+    if (block === "|") {
       console.log("Encountered EOF symbol '|'. Stopping processing.");
       break;
     }
 
-    // Ensure we have a complete 8-line block available to parse safely
-    if (i + 7 >= lines.length) break;
+    // 2. Split this specific block into its individual lines
+    const lines = block.split("\n").map((line) => line.trim());
 
-    // Mapping exactly to your specified field layout:
-    const tripId = Number(lines[i]);
-    const tripName = lines[i + 1];
-    const tripCost = Number(lines[i + 2]) || 0;
-    const start = lines[i + 3];
-    const end = lines[i + 4];
-    const action = lines[i + 5];
-    const notes = lines[i + 6];
-    const comments = lines[i + 7];
+    // Ensure we don't process a stray separator or broken fragment
+    if (lines.length < 2) continue;
+
+    // 3. Map the fields. If a line doesn't exist or is empty, it falls back gracefully.
+    const tripId = Number(lines[0]);
+    const tripName = lines[1];
+    const tripCost = Number(lines[2]) || 0;
+    const start = lines[3] || "";
+    const end = lines[4] || "";
+    const action = lines[5] || "";
+    const notes = lines[6] || "";
+    const comments = lines[7] || "";
 
     // Basic structural validation
-    if (!tripId || !tripName) {
+    if (isNaN(tripId) || !tripName) {
       console.log(
-        `Skipping invalid or incomplete sequence block starting at line ${i + 1}`,
+        `Skipping invalid sequence block: ID "${lines[0]}", Name "${lines[1]}"`,
       );
       continue;
     }
@@ -61,23 +67,20 @@ async function importTrips() {
     activeTripIds.push(tripId);
 
     // Save or merge straight into your Firestore "trips" collection
-    await db
-      .collection("trips")
-      .doc(String(tripId))
-      .set(
-        {
-          tripId,
-          tripName,
-          tripCost,
-          tripDateStart: start, // mapping "start" to frontend display
-          tripDateEnd: end, // mapping "end" to frontend display
-          action: action || "",
-          tripDesc: notes || "", // mapping "notes" field to your frontend description container
-          comments: comments || "",
-          updatedAt: admin.firestore.FieldValue.serverTimestamp(),
-        },
-        { merge: true },
-      );
+    await db.collection("trips").doc(String(tripId)).set(
+      {
+        tripId,
+        tripName,
+        tripCost,
+        tripDateStart: start,
+        tripDateEnd: end,
+        action,
+        tripDesc: notes,
+        comments,
+        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      },
+      { merge: true },
+    );
 
     importedCount++;
     console.log(`Imported Trip: ${tripId} - ${tripName}`);
@@ -85,7 +88,6 @@ async function importTrips() {
 
   console.log(`Import complete. ${importedCount} trips successfully updated.`);
 
-  // Clean away stale entries no longer active in the Access export file
   if (activeTripIds.length > 0) {
     await clearStaleTrips(activeTripIds);
   }

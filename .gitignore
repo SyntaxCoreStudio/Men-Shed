@@ -72,3 +72,7 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# SFTP Keys
+mens_shed_sftp
+mens_shed_sftp.pub
