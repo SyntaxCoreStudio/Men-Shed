@@ -23,9 +23,12 @@ async function importTrips() {
 
   const fileContent = fs.readFileSync(filePath, "utf8");
 
-  // 1. Normalize line endings, then split by a double newline (blank line between records)
-  const tripBlocks = fileContent
+  // 1. Normalize line endings, strip out hidden non-breaking space garbage, then split by clean double-newlines
+  const normalizedContent = fileContent
     .replace(/\r\n/g, "\n")
+    .replace(/[\u00A0\xa0]/g, ""); // Clean the file globally before splitting blocks!
+
+  const tripBlocks = normalizedContent
     .split(/\n\n+/)
     .map((block) => block.trim())
     .filter((block) => block !== "");
@@ -49,11 +52,11 @@ async function importTrips() {
     // 3. Map the fields. If a line doesn't exist or is empty, it falls back gracefully.
     const tripId = Number(lines[0]);
     const tripName = lines[1];
-    const tripCost = Number(lines[2]) || 0;
+    const tripDescription = lines[2];
     const start = lines[3] || "";
     const end = lines[4] || "";
-    const action = lines[5] || "";
-    const notes = lines[6] || "";
+    const tripCost = lines[5] ? Number(lines[5].replace(/[^0-9.]/g, "")) : 0;
+    const membersOnly = lines[6] || "";
     const comments = lines[7] || "";
 
     // Basic structural validation
@@ -71,11 +74,11 @@ async function importTrips() {
       {
         tripId,
         tripName,
-        tripCost,
+        tripDescription,
         tripDateStart: start,
         tripDateEnd: end,
-        action,
-        tripDesc: notes,
+        tripCost,
+        membersOnly,
         comments,
         updatedAt: admin.firestore.FieldValue.serverTimestamp(),
       },

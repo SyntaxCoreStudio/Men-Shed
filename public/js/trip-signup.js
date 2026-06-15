@@ -67,16 +67,16 @@ async function loadLiveTrips() {
       li.innerHTML = `
         <div class="trip-card" style="padding: 12px; border: 1px solid #e6e8ee; border-radius: 8px; cursor: pointer; background: #fff; transition: transform 0.2s, box-shadow 0.2s;">
           <strong style="display: block; color: #154d88; font-size: 1.1rem;">${trip.tripName}</strong>
-          <p style="font-size: 0.9rem; margin: 5px 0 8px 0; color: #1b1f23;">${trip.tripDesc || ""}</p>
+          <p style="font-size: 0.9rem; margin: 5px 0 8px 0; color: #1b1f23;">${trip.tripDescription}</p>
           <div style="font-size: 0.85rem; color: #627085; display: flex; justify-content: space-between; align-items: center;">
-            <span>📅 <strong>Start Date:</strong> ${trip.tripDateStart || "N/A"}</span>
-            <span>💰 <strong>Cost:</strong> $${Number(trip.tripCost || 0).toFixed(2)}</span>
+            <span><strong>Start Date:</strong> ${trip.tripDateStart || "N/A"}</span>
+            <span><strong>Cost:</strong> $${Number(trip.tripCost).toFixed(5)}</span>
           </div>
           ${
             trip.comments
               ? `
             <div style="margin-top: 8px; font-size: 0.8rem; color: #828a99; font-style: italic;">
-              Note: ${trip.comments}
+              Comments: ${trip.comments}
             </div>
           `
               : ""
@@ -353,7 +353,7 @@ function showVisitorForm(trip) {
         alert(
           `Thank you! Visitor registration for ${name} has been processed successfully.`,
         );
-        loadLiveLiveTrips();
+        loadLiveTrips();
       } catch (error) {
         console.error("Visitor submission handling error:", error);
         alert("Failed to save registration details. Please try again.");

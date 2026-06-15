@@ -76,3 +76,13 @@ node_modules/
 # SFTP Keys
 mens_shed_sftp
 mens_shed_sftp.pub
+
+functions/mens_shed_sftp
+
+functions/mens_shed_sftp_rsa
+mens_shed_sftp_rsa.pub
+
+dummy-data/WebExpPrsn.txt
+dummy-data/WebExpTrip.txt
+dummy-data/WebExpTripReg.txt
+dummy-data/WebImpReg.txt
