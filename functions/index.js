@@ -1,3 +1,5 @@
+// index.js
+
 const { onRequest } = require("firebase-functions/v2/https");
 const { onSchedule } = require("firebase-functions/v2/scheduler");
 const { defineSecret } = require("firebase-functions/params");
@@ -148,7 +150,7 @@ exports.nightlySftpSync = onSchedule(
         await sftp.delete(`${remotePath}/${fileMap.get("webexpprsn.txt")}`);
       }
 
-      // 2. MATCH-BACK NEW PERSON IDs FOR VISITORS (WebExpVisNew.txt)
+      // 2. MATCH-BACK NEW PERSON IDs FOR VISITORS & AUTO-PROMOTE TO MEMBERS (WebExpVisNew.txt)
       if (fileMap.has("webexpvisnew.txt")) {
         logger.info("Processing assigned Person IDs for new visitors...");
         const buf = await sftp.get(
@@ -159,13 +161,14 @@ exports.nightlySftpSync = onSchedule(
         for (const block of blocks) {
           if (block === "|") break;
           const lines = block.split("\n").map((l) => l.trim());
-          if (lines.length < 2) continue;
+          if (lines.length < 3) continue;
 
           const visitorId = Number(lines[0]);
           const assignedPersonId = Number(lines[1]);
+          const visitorName = lines[2] || "Converted Visitor";
 
           if (!isNaN(visitorId) && !isNaN(assignedPersonId)) {
-            // Log matching context into a ledger reference collection for audit stability
+            // Write mapping audit log
             await db
               .collection("visitor_id_mapping")
               .doc(String(visitorId))
@@ -174,12 +177,23 @@ exports.nightlySftpSync = onSchedule(
                 personId: assignedPersonId,
                 mappedAt: admin.firestore.FieldValue.serverTimestamp(),
               });
+
+            // Promote directly into Type-ahead searchable directory
+            await db.collection("people").doc(String(assignedPersonId)).set(
+              {
+                personId: assignedPersonId,
+                name: visitorName,
+                searchName: visitorName.toLowerCase(),
+                updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+              },
+              { merge: true },
+            );
           }
         }
         await sftp.delete(`${remotePath}/${fileMap.get("webexpvisnew.txt")}`);
       }
 
-      // 3. REFRESH ACTIVE TRIPS DATABASE (WebExpTrip.txt)
+      // 3. REFRESH ACTIVE TRIPS DATABASE WITH ALIGNED INDEXES (WebExpTrip.txt)
       if (fileMap.has("webexptrip.txt")) {
         logger.info("Processing fresh incoming trip definitions...");
         const buf = await sftp.get(
@@ -191,18 +205,26 @@ exports.nightlySftpSync = onSchedule(
         for (const block of blocks) {
           if (block === "|") break;
           const lines = block.split("\n").map((l) => l.trim());
-          if (lines.length < 3) continue;
+          if (lines.length < 4) continue;
 
-          const tripId = Number(lines[0]);
-          const tripName = lines[1];
-          const tripDescription = lines[2];
-          const start = lines[3] || "";
-          const end = lines[4] || "";
-          const tripCost = Number(lines[5]) || 0;
-          const membersOnly = lines[6] || "";
-          const comments = lines[7] || "";
+          // Shifted indexes to gracefully absorb line 0's Access action directive
+          const action = lines[0] || "";
+          const tripId = Number(lines[1]);
+          const tripName = lines[2];
+          const tripDescription = lines[3];
+          const start = lines[4] || "";
+          const end = lines[5] || "";
+          const tripCost = Number(lines[6]) || 0;
+          const membersOnly = lines[7] || "";
+          const comments = lines[8] || "";
 
           if (isNaN(tripId) || !tripName) continue;
+
+          if (action.toLowerCase() === "delete") {
+            await db.collection("trips").doc(String(tripId)).delete();
+            continue;
+          }
+
           activeTripIds.push(tripId);
 
           await db.collection("trips").doc(String(tripId)).set(
@@ -273,14 +295,23 @@ exports.nightlyDatabaseSync = onSchedule(
     try {
       await sftp.connect(getSftpConfig());
 
-      // WRITE OUTBOUND NEW VISITORS (WebImpVisNew.txt)
+      // 1. WRITE OUTBOUND NEW VISITORS (WebImpVisNew.txt) -> Strict 7-Line Block
       if (!visitorsSnapshot.empty) {
         let visPayload = "";
         visitorsSnapshot.forEach((doc) => {
           const data = doc.data();
-          visPayload += `${data.visitorId}\n${data.name}\n${data.phone}\n${data.email}\n\n`;
+
+          // Formats exactly matching Web New Visitor Import structure (7 lines)
+          visPayload += `${data.EOF || ""}\r\n`;
+          visPayload += `${data.FamilyName || ""}\r\n`;
+          visPayload += `${data.OtherNames || ""}\r\n`;
+          visPayload += `${data.Gender || ""}\r\n`;
+          visPayload += `${data.VisitorID || ""}\r\n`;
+          visPayload += `${data.Email || ""}\r\n`;
+          visPayload += `${data.Phone || ""}\r\n`;
         });
-        visPayload += "|\n";
+
+        visPayload += "|\r\n"; // End of file structural boundary marker
         await sftp.put(
           Buffer.from(visPayload, "utf8"),
           "ToDatabase/WebImpVisNew.txt",
@@ -290,14 +321,29 @@ exports.nightlyDatabaseSync = onSchedule(
         );
       }
 
-      // WRITE OUTBOUND TRIP BOOKINGS (WebImpReg.txt)
+      // 2. WRITE OUTBOUND TRIP BOOKINGS (WebImpReg.txt) -> Strict 8-Line Block matching image_9f7766.jpg
       if (!regsSnapshot.empty) {
         let regPayload = "";
         regsSnapshot.forEach((doc) => {
           const data = doc.data();
-          regPayload += `${data.tripId}\n${data.personId}\n${data.visitorId}\n${Number(data.paidAmount).toFixed(2)}\n${data.paidDate || ""}\n${data.paidMethod || "Pending"}\n${data.comments || "None"}\n\n`;
+
+          // Separate regular Member IDs from 6-digit temporary Visitor IDs (100000+)
+          const isVisitor = data.PersonID && data.PersonID >= 100000;
+          const personIdField = isVisitor ? 0 : data.PersonID || 0;
+          const visitorIdField = isVisitor ? data.PersonID : 0;
+
+          // Formats exactly matching the 8-line Web Trip Registrations Import schema
+          regPayload += `${data.EOF || ""}\r\n`;
+          regPayload += `${personIdField}\r\n`;
+          regPayload += `${visitorIdField}\r\n`;
+          regPayload += `${data.TripID || ""}\r\n`;
+          regPayload += `Add\r\n`;
+          regPayload += `${typeof data.PaidAmount === "number" ? data.PaidAmount.toFixed(2) : "0.00"}\r\n`;
+          regPayload += `${data.PaidDate || ""}\r\n`;
+          regPayload += `${data.Comments || "None Specified"}\r\n`;
         });
-        regPayload += "|\n";
+
+        regPayload += "|\r\n"; // End of file structural boundary marker
         await sftp.put(
           Buffer.from(regPayload, "utf8"),
           "ToDatabase/WebImpReg.txt",

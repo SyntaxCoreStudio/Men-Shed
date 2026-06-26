@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /**
  * Fetches dynamic trip information from the Firestore "trips" collection
- * Updated to reflect the exact MS Access schema fields.
  */
 async function loadLiveTrips() {
   const tripList = document.getElementById("tripList");
@@ -56,7 +55,6 @@ async function loadLiveTrips() {
     tripsSnapshot.forEach((doc) => {
       const trip = doc.data();
 
-      // If the Access action explicitly dictates an alternative status, filter here if desired.
       if (trip.action && trip.action.toLowerCase() === "delete") {
         return;
       }
@@ -70,7 +68,7 @@ async function loadLiveTrips() {
           <p style="font-size: 0.9rem; margin: 5px 0 8px 0; color: #1b1f23;">${trip.tripDescription}</p>
           <div style="font-size: 0.85rem; color: #627085; display: flex; justify-content: space-between; align-items: center;">
             <span><strong>Start Date:</strong> ${trip.tripDateStart || "N/A"}</span>
-            <span><strong>Cost:</strong> $${Number(trip.tripCost).toFixed(5)}</span>
+            <span><strong>Cost:</strong> $${Number(trip.tripCost).toFixed(2)}</span>
           </div>
           ${
             trip.comments
@@ -169,13 +167,13 @@ function showMemberTypeAhead(trip) {
   tripList.innerHTML = `
     <div style="padding: 12px; background: #ffffff; border: 1px solid #e6e8ee; border-radius: 8px; position: relative;">
       <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--text);">Find Your Member Name</h3>
-      <input type="text" id="typeAheadSearch" placeholder="Type last name (e.g. Schrute)..." style="width: 100%; padding: 10px; border: 1px solid #e6e8ee; border-radius: 4px;" autocomplete="off" />
+      <input type="text" id="typeAheadSearch" placeholder="Type first name (e.g. Schrute)..." style="width: 100%; padding: 10px; border: 1px solid #e6e8ee; border-radius: 4px;" autocomplete="off" />
       <div id="typeAheadResults" style="background: white; border: 1px solid #e6e8ee; border-top: none; max-height: 150px; overflow-y: auto; display: none; position: absolute; width: calc(100% - 24px); z-index: 10; box-shadow: var(--shadow);"></div>
       
       <div id="selectedMemberConfirmation" style="margin-top: 20px; display: none; padding: 10px; background: var(--bg); border-radius: 6px; border: 1px solid #e6e8ee;">
         <p style="margin: 0 0 10px 0; font-size: 0.95rem;">Confirming registration for:<br><strong id="confirmedName" style="color: #154d88; font-size: 1.1rem;"></strong></p>
         
-        <label style="display:block; margin-bottom:4px; font-size:0.85rem; font-weight:bold;">Optional Note for organizers:</label>
+        <label style="display:block; margin-bottom:4px; font-size:0.85rem; font-weight:bold;">Note for organizers:</label>
         <input type="text" id="memberComment" placeholder="Dietary needs, carpooling notes..." style="width:100%; padding:6px; margin-bottom:12px; border:1px solid #e6e8ee; border-radius:4px; font-size:0.9rem;" />
 
         <button id="btnSubmitMemberSignup" style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Confirm & Book Trip</button>
@@ -258,7 +256,7 @@ function showMemberTypeAhead(trip) {
     }
   });
 
-  // Action: Save Member Registration targeting "WebImpReg.txt" structure
+  // Action: Save Member Registration matching the 7-field layout from image_809402.jpg
   document
     .getElementById("btnSubmitMemberSignup")
     .addEventListener("click", async () => {
@@ -266,25 +264,20 @@ function showMemberTypeAhead(trip) {
         .getElementById("memberComment")
         .value.trim();
       try {
-        // Maps to the schema properties used during the file processing stride loop
         await addDoc(collection(db, "web_registrations_staging"), {
-          tripId: Number(trip.tripId),
-          personId: Number(selectedPersonId),
-          visitorId: 0,
-          paidAmount: 0.0,
-          paidDate: "",
-          paidMethod: "Pending",
-          comments: commentInput || "None",
-          createdAt: serverTimestamp(),
+          EOF: "",
+          TripID: Number(trip.tripId || trip.TripID),
+          PersonID: Number(selectedPersonId),
+          PaidAmount: 0.0,
+          PaidDate: "",
+          PaidMethod: "Pending",
+          Comments: commentInput || "None",
         });
 
-        alert(
-          `Success! ${selectedPersonName} has been recorded for the "${trip.tripName}".`,
-        );
+        alert(`Success! ${selectedPersonName} has been recorded.`);
         loadLiveTrips();
       } catch (error) {
         console.error("Booking staging save error:", error);
-        alert("Failed to submit entry. Please try again.");
       }
     });
 }
@@ -298,14 +291,27 @@ function showVisitorForm(trip) {
     <div style="padding: 12px; background: #ffffff; border: 1px solid #e6e8ee; border-radius: 8px;">
       <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--text);">Visitor Registration</h3>
       <form id="visitorForm">
-        <label style="display: block; margin-bottom: 4px; font-size: 0.85rem; font-weight: bold; color: var(--text);">Full Name</label>
-        <input type="text" required id="visName" placeholder="e.g. Smith, John" style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #e6e8ee; border-radius: 4px;" />
+        <label style="display: block; margin-bottom: 4px; font-size: 0.85rem; font-weight: bold; color: var(--text);">Family Name (Last Name)</label>
+        <input type="text" required id="visFamilyName" placeholder="e.g. Smith" style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #e6e8ee; border-radius: 4px;" />
+
+        <label style="display: block; margin-bottom: 4px; font-size: 0.85rem; font-weight: bold; color: var(--text);">Other Names (First Name)</label>
+        <input type="text" required id="visOtherNames" placeholder="e.g. Harvey" style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #e6e8ee; border-radius: 4px;" />
+
+        <label style="display: block; margin-bottom: 4px; font-size: 0.85rem; font-weight: bold; color: var(--text);">Gender</label>
+        <select id="visGender" style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #e6e8ee; border-radius: 4px; background: white;">
+          <option value="">Unspecified</option>
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+        </select>
+
+        <label style="display: block; margin-bottom: 4px; font-size: 0.85rem; font-weight: bold; color: var(--text);">Email Address</label>
+        <input type="email" required id="visEmail" placeholder="e.g. harvey@example.com" style="width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #e6e8ee; border-radius: 4px;" />
         
         <label style="display: block; margin-bottom: 4px; font-size: 0.85rem; font-weight: bold; color: var(--text);">Phone Number</label>
-        <input type="tel" required id="visPhone" style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #e6e8ee; border-radius: 4px;" />
-        
-        <label style="display: block; margin-bottom: 4px; font-size: 0.85rem; font-weight: bold; color: var(--text);">Email Address</label>
-        <input type="email" required id="visEmail" style="width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #e6e8ee; border-radius: 4px;" />
+        <input type="tel" required id="visPhone" placeholder="e.g. 0412345678" style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #e6e8ee; border-radius: 4px;" />
+
+        <label style="display: block; margin-bottom: 4px; font-size: 0.85rem; font-weight: bold; color: var(--text);">Comments</label>
+        <input type="text" id="visComment" placeholder="Meal Choice ect" style="width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #e6e8ee; border-radius: 4px;" />
         
         <button type="submit" style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Submit Details</button>
       </form>
@@ -321,42 +327,43 @@ function showVisitorForm(trip) {
     .getElementById("visitorForm")
     .addEventListener("submit", async (e) => {
       e.preventDefault();
-      const name = document.getElementById("visName").value.trim();
+
+      const familyName = document.getElementById("visFamilyName").value.trim();
+      const otherNames = document.getElementById("visOtherNames").value.trim();
+      const gender = document.getElementById("visGender").value || "U";
       const phone = document.getElementById("visPhone").value.trim();
       const email = document.getElementById("visEmail").value.trim();
+      const mealComment = document.getElementById("visComment").value.trim();
 
-      // Generate numerical token key for temporary VisitorID matching rules
       const temporaryVisitorId = Math.floor(100000 + Math.random() * 900000);
 
       try {
-        // 1. Log Visitor Profile details inside WebImpVisNew staging
+        // 1. Log Visitor Profile matching the exact 7-field structure
         await addDoc(collection(db, "web_visitors_staging"), {
-          visitorId: temporaryVisitorId,
-          name: name,
-          phone: phone,
-          email: email,
-          createdAt: serverTimestamp(),
+          EOF: "",
+          FamilyName: familyName,
+          OtherNames: otherNames,
+          Gender: gender,
+          VisitorID: temporaryVisitorId,
+          Email: email,
+          Phone: phone,
         });
 
-        // 2. Log Registration parameters into WebImpReg staging (PersonID field is zero)
+        // 2. Log Registration parameters
         await addDoc(collection(db, "web_registrations_staging"), {
-          tripId: Number(trip.tripId),
-          personId: 0,
-          visitorId: temporaryVisitorId,
-          paidAmount: 0.0,
-          paidDate: "",
-          paidMethod: "Pending",
-          comments: `Visitor contact number: ${phone}`,
-          createdAt: serverTimestamp(),
+          EOF: "",
+          TripID: Number(trip.tripId || trip.TripID),
+          PersonID: temporaryVisitorId,
+          PaidAmount: 0.0,
+          PaidDate: "",
+          PaidMethod: "Pending",
+          Comments: mealComment || "None Specified",
         });
 
-        alert(
-          `Thank you! Visitor registration for ${name} has been processed successfully.`,
-        );
+        alert(`Thank you! Visitor registration processed successfully.`);
         loadLiveTrips();
       } catch (error) {
         console.error("Visitor submission handling error:", error);
-        alert("Failed to save registration details. Please try again.");
       }
     });
 }
