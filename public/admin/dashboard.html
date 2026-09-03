@@ -11,15 +11,20 @@
       <aside class="sidebar">
         <div class="sidebar-top">
           <div class="logo">
-            <div class="logo-icon"></div>
+            <div class="logo-icon">
+              <img src="/public/assets/CarinaLogo@2x.jpg" />
+            </div>
             <span>AdminPanel</span>
           </div>
           <nav class="sidebar-nav">
-            <a href="#" id="navDashboard" class="nav-item active">
-              <span class="icon">📊</span> Dashboard
-            </a>
             <a href="#" id="navFiles" class="nav-item">
               <span class="icon">📁</span> All Files
+            </a>
+            <a href="#" id="navDashboard" class="nav-item active">
+              <span class="icon">📊</span> Uploads
+            </a>
+            <a href="#" id="navMembers" class="nav-item members">
+              <span class="icon">👥</span> Committee
             </a>
           </nav>
         </div>
@@ -135,6 +140,37 @@
             <p id="fileManagerStatus" class="status-msg"></p>
           </div>
         </div>
+
+        <!-- MEMBERS MANAGER SECTION -->
+<div id="membersManagerSection" style="display: none">
+  <div class="admin-card" style="margin-bottom: 20px;">
+    <h3>Add New Committee Member</h3>
+    <div class="form-group">
+      <label>Role (e.g. President)</label>
+      <input id="memberRole" type="text" placeholder="President" />
+    </div>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input id="memberName" type="text" placeholder="John Rossberg" />
+    </div>
+    <button id="addMemberBtn" class="btn-primary">Add Member</button>
+    <p id="memberStatus" class="status-msg"></p>
+  </div>
+
+  <div class="admin-card">
+    <h3>Current Committee Members</h3>
+    <table class="file-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="memberListBody"></tbody>
+    </table>
+  </div>
+</div>
       </main>
     </div>
 

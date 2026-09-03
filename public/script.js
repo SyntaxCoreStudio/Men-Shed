@@ -862,3 +862,36 @@ if (mediaModalPrev) {
 document.addEventListener("DOMContentLoaded", () => {
   showModalNav(false);
 });
+
+
+async function loadPublicCommitteeMembers() {
+    const listContainer = document.getElementById("committeeList");
+    if (!listContainer) return;
+
+    try {
+      const q = query(collection(db, "committeeMembers"), orderBy("order", "asc"));
+      const snapshot = await getDocs(q);
+
+      listContainer.innerHTML = "";
+
+      if (snapshot.empty) {
+        listContainer.innerHTML = "<li>No committee members currently listed.</li>";
+        return;
+      }
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const li = document.createElement("li");
+        li.textContent = `${data.role} - ${data.name}`;
+        listContainer.appendChild(li);
+      });
+    } catch (error) {
+      console.error("Error loading committee members:", error);
+      listContainer.innerHTML = "<li>Unable to load committee members at this time.</li>";
+    }
+}
+
+// --- Ensure it runs once the page elements are fully ready ---
+document.addEventListener("DOMContentLoaded", () => {
+  loadPublicCommitteeMembers();
+});
